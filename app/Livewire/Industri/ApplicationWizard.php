@@ -140,10 +140,10 @@ class ApplicationWizard extends Component
     public function render()
     {
         return view('livewire.industri.application-wizard', [
-            'categories'         => ProductCategory::orderBy('name')->get(),
+            'categories'         => ProductCategory::orderBy('name_ms')->get(),
             'subcategories'      => $this->category_id
-                ? ProductSubcategory::where('category_id', $this->category_id)->orderBy('name')->get()
-                : collect(),
+                ? ProductSubcategory::orderBy('name_ms')->get()
+                : ProductSubcategory::orderBy('name_ms')->get(),
             'formulationTypes'   => FormulationType::orderBy('name_ms')->get(),
             'activeIngredients'  => ActiveIngredient::orderBy('name')->get(),
         ]);
