@@ -7,182 +7,422 @@
     <title>{{ $title ?? 'myLRMP' }} — Portal Industri</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: {
-                            50:  '#f0fdf4',
-                            100: '#dcfce7',
-                            200: '#bbf7d0',
-                            300: '#86efac',
-                            400: '#4ade80',
-                            500: '#006837',
-                            600: '#005a2f',
-                            700: '#004d28',
-                            800: '#003f20',
-                            900: '#052e16',
-                        }
-                    }
-                }
-            }
-        }
-    </script>
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <style>
-        * { box-sizing: border-box; }
-        body { font-family: 'Inter', -apple-system, system-ui, sans-serif; font-feature-settings: 'cv01', 'ss03'; -webkit-font-smoothing: antialiased; margin: 0; }
-        .sidebar { background: #0f1011; border-right: 1px solid rgba(255,255,255,0.08); color: #f7f8f8; }
-        .sidebar-brand { font-size: 18px; font-weight: 600; letter-spacing: -0.02em; color: #f7f8f8; }
-        .sidebar-brand-sub { font-size: 12px; font-weight: 400; color: #62666d; margin-top: 2px; }
-        .nav-item { display: flex; align-items: center; gap: 10px; padding: 8px 16px; border-radius: 6px; font-size: 14px; font-weight: 500; color: #8a8f98; text-decoration: none; transition: all 0.15s; cursor: pointer; border: none; background: none; width: 100%; text-align: left; }
-        .nav-item:hover { background: rgba(255,255,255,0.04); color: #d0d6e0; }
-        .nav-item.active { background: rgba(255,255,255,0.08); color: #f7f8f8; border-left: 2px solid #5e6ad2; padding-left: 14px; }
-        .nav-group-label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #62666d; padding: 16px 16px 6px; }
-        .main-content { background: #f7f8f9; min-height: 100vh; }
-        .topbar { background: #ffffff; border-bottom: 1px solid #e5e7eb; padding: 0 24px; height: 56px; display: flex; align-items: center; justify-content: space-between; }
-        .page-title { font-size: 20px; font-weight: 600; letter-spacing: -0.02em; color: #111827; }
-        .content-area { padding: 24px; }
-        .kpi-card { background: white; border: 1px solid #e5e7eb; border-radius: 12px; padding: 20px 24px; }
-        .kpi-label { font-size: 12px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: #9ca3af; margin-bottom: 8px; }
-        .kpi-value { font-size: 32px; font-weight: 700; letter-spacing: -0.03em; color: #111827; }
-        .kpi-value.orange { color: #d97706; }
-        .kpi-value.green { color: #15803d; }
-        .kpi-value.red { color: #b91c1c; }
-        .data-table { width: 100%; border-collapse: collapse; font-size: 14px; }
-        .data-table th { font-size: 12px; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; color: #9ca3af; padding: 10px 16px; text-align: left; border-bottom: 1px solid #f3f4f6; }
-        .data-table td { padding: 12px 16px; border-bottom: 1px solid #f9fafb; color: #374151; }
-        .data-table tr:hover td { background: #f9fafb; }
-        .badge { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 9999px; font-size: 12px; font-weight: 500; }
-        .badge-diluluskan { background: #dcfce7; color: #15803d; }
-        .badge-ditolak { background: #fee2e2; color: #b91c1c; }
-        .badge-dalam-proses { background: #fef9c3; color: #a16207; }
-        .badge-draf { background: #f3f4f6; color: #6b7280; }
-        .badge-dihantar { background: #dbeafe; color: #1d4ed8; }
-        .badge-semakan { background: #fff7ed; color: #c2410c; }
-        input, select, textarea { font-family: 'Inter', sans-serif; font-feature-settings: 'cv01', 'ss03'; }
+      :root {
+        --brand:       #006837;
+        --brand-light: #e8f5ee;
+        --brand-mid:   #2e7d52;
+        --teal:        #2dd4bf;
+        --teal-light:  #e0faf7;
+        --gold:        #f59e0b;
+        --gold-light:  #fef3c7;
+        --red:         #ef4444;
+        --red-light:   #fee2e2;
+        --blue:        #3b82f6;
+        --blue-light:  #dbeafe;
+        --purple:      #8b5cf6;
+
+        --page-bg:     #f4f5f7;
+        --card-bg:     #ffffff;
+        --sidebar-bg:  #ffffff;
+
+        --text-1:      #111827;
+        --text-2:      #374151;
+        --text-3:      #6b7280;
+        --text-4:      #9ca3af;
+
+        --border:      #e5e7eb;
+        --border-soft: #f3f4f6;
+
+        --radius-sm:   8px;
+        --radius-md:   12px;
+        --radius-lg:   16px;
+
+        --shadow-sm:   0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+        --shadow-md:   0 4px 12px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.04);
+
+        --font:        'Inter', -apple-system, system-ui, sans-serif;
+      }
+
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      body {
+        font-family: var(--font);
+        font-feature-settings: 'cv01', 'ss03';
+        background: var(--page-bg);
+        color: var(--text-1);
+        -webkit-font-smoothing: antialiased;
+        display: flex;
+        height: 100vh;
+        overflow: hidden;
+      }
+
+      /* ─── SIDEBAR ─── */
+      .sidebar {
+        width: 220px;
+        min-width: 220px;
+        background: var(--sidebar-bg);
+        border-right: 1px solid var(--border);
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto;
+        flex-shrink: 0;
+      }
+      .sidebar-brand {
+        padding: 20px 16px 16px;
+        border-bottom: 1px solid var(--border-soft);
+      }
+      .sidebar-brand-logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+      }
+      .sidebar-brand-icon {
+        width: 34px; height: 34px;
+        background: var(--brand);
+        border-radius: 8px;
+        display: flex; align-items: center; justify-content: center;
+        color: #fff;
+        font-weight: 700;
+        font-size: 14px;
+        letter-spacing: -0.5px;
+        flex-shrink: 0;
+      }
+      .sidebar-brand-text { font-size: 15px; font-weight: 700; color: var(--text-1); letter-spacing: -0.02em; }
+      .sidebar-brand-sub  { font-size: 11px; color: var(--text-4); margin-top: 1px; }
+
+      .sidebar-section {
+        padding: 8px 8px 4px;
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--text-4);
+        margin-top: 8px;
+      }
+      .nav-item {
+        display: flex; align-items: center; gap: 10px;
+        padding: 9px 12px;
+        border-radius: 8px;
+        margin: 1px 6px;
+        font-size: 13.5px; font-weight: 500;
+        color: var(--text-3);
+        text-decoration: none;
+        cursor: pointer;
+        transition: background 0.12s, color 0.12s;
+        user-select: none;
+        border: none;
+        background: none;
+        width: calc(100% - 12px);
+        text-align: left;
+      }
+      .nav-item:hover { background: var(--border-soft); color: var(--text-1); }
+      .nav-item.active {
+        background: var(--brand-light);
+        color: var(--brand);
+        font-weight: 600;
+        border-left: 3px solid var(--brand);
+        padding-left: 9px;
+      }
+      .nav-icon {
+        width: 18px; height: 18px; flex-shrink: 0;
+        display: flex; align-items: center; justify-content: center;
+        opacity: 0.7;
+      }
+      .nav-item.active .nav-icon { opacity: 1; }
+      .nav-badge {
+        margin-left: auto;
+        background: var(--brand);
+        color: #fff;
+        font-size: 10px; font-weight: 600;
+        padding: 1px 6px;
+        border-radius: 9999px;
+        min-width: 18px; text-align: center;
+      }
+      .sidebar-footer {
+        margin-top: auto;
+        padding: 12px 10px;
+        border-top: 1px solid var(--border-soft);
+        display: flex; align-items: center; gap: 10px;
+        flex-shrink: 0;
+      }
+      .avatar {
+        width: 32px; height: 32px;
+        border-radius: 50%;
+        background: var(--brand);
+        color: #fff;
+        font-size: 12px; font-weight: 700;
+        display: flex; align-items: center; justify-content: center;
+        flex-shrink: 0;
+      }
+      .avatar-name  { font-size: 13px; font-weight: 600; color: var(--text-1); }
+      .avatar-role  { font-size: 11px; color: var(--text-4); }
+      .logout-btn {
+        margin-left: auto;
+        color: var(--text-4);
+        cursor: pointer;
+        transition: color 0.12s;
+        background: none; border: none; padding: 0;
+        display: flex; align-items: center;
+      }
+      .logout-btn:hover { color: var(--red); }
+
+      /* ─── MAIN SHELL ─── */
+      .main {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        min-width: 0;
+      }
+
+      /* ─── TOP BAR ─── */
+      .topbar {
+        height: 56px; min-height: 56px;
+        background: #fff;
+        border-bottom: 1px solid var(--border);
+        padding: 0 24px;
+        display: flex; align-items: center; gap: 16px;
+        flex-shrink: 0;
+      }
+      .topbar-back {
+        display: flex; align-items: center; gap: 6px;
+        font-size: 13px; color: var(--text-3);
+        cursor: pointer;
+        transition: color 0.12s;
+        text-decoration: none;
+      }
+      .topbar-back:hover { color: var(--brand); }
+      .topbar-divider { width: 1px; height: 18px; background: var(--border); flex-shrink: 0; }
+      .topbar-title {
+        font-size: 16px; font-weight: 600;
+        color: var(--text-1);
+        letter-spacing: -0.02em;
+      }
+      .topbar-right { margin-left: auto; display: flex; align-items: center; gap: 12px; }
+      .topbar-search {
+        display: flex; align-items: center; gap: 8px;
+        background: var(--page-bg);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 6px 12px;
+        font-size: 13px; color: var(--text-4);
+        cursor: pointer;
+        width: 180px;
+      }
+      .topbar-avatar {
+        width: 34px; height: 34px;
+        border-radius: 50%;
+        background: var(--brand);
+        color: #fff;
+        font-size: 13px; font-weight: 700;
+        display: flex; align-items: center; justify-content: center;
+        cursor: pointer;
+        flex-shrink: 0;
+      }
+      .user-info { text-align: right; }
+      .user-name { font-size: 13px; font-weight: 600; color: var(--text-1); }
+      .user-role { font-size: 11px; color: var(--text-4); }
+
+      /* ─── CONTENT AREA ─── */
+      .main-scroll {
+        flex: 1;
+        overflow-y: auto;
+        padding: 20px 24px;
+        background: var(--page-bg);
+      }
+
+      /* ─── KPI CARDS ─── */
+      .kpi-card {
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+        padding: 20px 24px;
+        box-shadow: var(--shadow-sm);
+      }
+      .kpi-label { font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-4); margin-bottom: 8px; }
+      .kpi-value { font-size: 32px; font-weight: 700; letter-spacing: -0.03em; color: var(--text-1); }
+      .kpi-value.orange { color: #d97706; }
+      .kpi-value.green  { color: #15803d; }
+      .kpi-value.red    { color: #b91c1c; }
+
+      /* ─── SECTION CARD ─── */
+      .section-card {
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+        padding: 16px;
+        box-shadow: var(--shadow-sm);
+      }
+      .section-header {
+        display: flex; align-items: center; justify-content: space-between;
+        margin-bottom: 14px;
+      }
+      .section-title { font-size: 14px; font-weight: 600; color: var(--text-1); }
+      .section-more  { font-size: 12px; color: var(--brand); cursor: pointer; font-weight: 500; text-decoration: none; }
+      .section-more:hover { text-decoration: underline; }
+
+      /* ─── DATA TABLE ─── */
+      .data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+      .data-table th {
+        font-size: 11px; font-weight: 600;
+        letter-spacing: 0.04em; text-transform: uppercase;
+        color: var(--text-4);
+        padding: 8px 12px;
+        border-bottom: 1px solid var(--border);
+        text-align: left;
+      }
+      .data-table td {
+        padding: 10px 12px;
+        border-bottom: 1px solid var(--border-soft);
+        color: var(--text-2);
+      }
+      .data-table tr:last-child td { border-bottom: none; }
+      .data-table tr:hover td { background: var(--border-soft); }
+
+      /* ─── CHIPS ─── */
+      .chip {
+        font-size: 10px; font-weight: 600;
+        padding: 3px 8px;
+        border-radius: 9999px;
+        letter-spacing: 0.01em;
+        display: inline-flex; align-items: center;
+      }
+      .chip-brand  { background: var(--brand-light); color: var(--brand); }
+      .chip-green  { background: #dcfce7; color: #15803d; }
+      .chip-amber  { background: var(--gold-light); color: #92400e; }
+      .chip-red    { background: var(--red-light); color: #b91c1c; }
+      .chip-blue   { background: var(--blue-light); color: #1d4ed8; }
+      .chip-gray   { background: #f3f4f6; color: #6b7280; }
+      .chip-teal   { background: var(--teal-light); color: #0d9488; }
+
+      /* ─── BADGE (dashboard table) ─── */
+      .badge { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 9999px; font-size: 11px; font-weight: 500; }
+      .badge-diluluskan   { background: #dcfce7; color: #15803d; }
+      .badge-ditolak      { background: var(--red-light); color: #b91c1c; }
+      .badge-dalam-proses { background: var(--gold-light); color: #a16207; }
+      .badge-draf         { background: #f3f4f6; color: #6b7280; }
+      .badge-dihantar     { background: var(--blue-light); color: #1d4ed8; }
+      .badge-semakan      { background: #fff7ed; color: #c2410c; }
+
+      /* scroll */
+      ::-webkit-scrollbar { width: 4px; }
+      ::-webkit-scrollbar-track { background: transparent; }
+      ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+      input, select, textarea { font-family: var(--font); font-feature-settings: 'cv01', 'ss03'; }
     </style>
     @livewireStyles
 </head>
 <body>
 
-<div x-data="{ sidebarOpen: false }" style="display: flex; height: 100vh; overflow: hidden;">
+{{-- ═══ SIDEBAR ═══ --}}
+<nav class="sidebar">
+    <div class="sidebar-brand">
+        <a href="{{ route('industri.dashboard') }}" class="sidebar-brand-logo">
+            <div class="sidebar-brand-icon">ML</div>
+            <div>
+                <div class="sidebar-brand-text">myLRMP</div>
+                <div class="sidebar-brand-sub">Jabatan Pertanian</div>
+            </div>
+        </a>
+    </div>
 
-    {{-- Sidebar --}}
-    <aside
-        :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
-        class="sidebar fixed inset-y-0 left-0 z-50 w-64 transform transition-transform duration-200 ease-in-out lg:relative lg:translate-x-0 flex flex-col"
-        style="width: 256px; flex-shrink: 0;"
-    >
-        {{-- Brand --}}
-        <div style="display: flex; align-items: center; justify-content: space-between; height: 56px; padding: 0 20px; border-bottom: 1px solid rgba(255,255,255,0.06); flex-shrink: 0;">
-            <a href="{{ route('industri.dashboard') }}" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
-                <div style="width: 30px; height: 30px; background: #5e6ad2; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                    <span style="color: white; font-weight: 800; font-size: 11px;">ML</span>
-                </div>
-                <div>
-                    <div class="sidebar-brand">myLRMP</div>
-                    <div class="sidebar-brand-sub">Portal Industri</div>
-                </div>
-            </a>
-            <button @click="sidebarOpen = false" class="lg:hidden" style="color: #8a8f98; background: none; border: none; cursor: pointer; padding: 4px;">
-                <svg style="width: 18px; height: 18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+    <div style="flex: 1; padding: 8px 0; overflow-y: auto;">
+        <div class="sidebar-section">Utama</div>
+        <a href="{{ route('industri.dashboard') }}"
+           class="nav-item {{ request()->routeIs('industri.dashboard') ? 'active' : '' }}">
+            <span class="nav-icon">
+                <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
+                    <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zm0 6a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1v-2zm0 6a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1v-2z"/>
+                </svg>
+            </span>
+            <span>Papan Pemuka</span>
+        </a>
+        <a href="{{ route('industri.applications.index') }}"
+           class="nav-item {{ request()->routeIs('industri.applications.*') ? 'active' : '' }}">
+            <span class="nav-icon">
+                <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
+                    <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clip-rule="evenodd"/>
+                </svg>
+            </span>
+            <span>Permohonan</span>
+        </a>
+
+        <div class="sidebar-section">Akaun</div>
+        <a href="{{ route('industri.profile') }}"
+           class="nav-item {{ request()->routeIs('industri.profile') ? 'active' : '' }}">
+            <span class="nav-icon">
+                <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
+                    <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
+                </svg>
+            </span>
+            <span>Profil Syarikat</span>
+        </a>
+    </div>
+
+    <div class="sidebar-footer">
+        <div class="avatar" style="font-size:11px">
+            {{ strtoupper(substr(auth()->user()?->name ?? 'U', 0, 2)) }}
+        </div>
+        <div style="min-width:0;flex:1">
+            <div class="avatar-name" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">
+                {{ auth()->user()?->name }}
+            </div>
+            <div class="avatar-role">Industri</div>
+        </div>
+        <form method="POST" action="{{ route('industri.logout') }}" style="margin:0">
+            @csrf
+            <button type="submit" class="logout-btn" title="Log Keluar">
+                <svg viewBox="0 0 20 20" fill="currentColor" width="15" height="15">
+                    <path fill-rule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clip-rule="evenodd"/>
                 </svg>
             </button>
-        </div>
-
-        {{-- Navigation --}}
-        <nav style="flex: 1; padding: 12px 8px; overflow-y: auto;">
-            <div class="nav-group-label">Menu</div>
-            <a href="{{ route('industri.dashboard') }}"
-               class="nav-item {{ request()->routeIs('industri.dashboard') ? 'active' : '' }}">
-                <svg style="width: 18px; height: 18px; flex-shrink: 0;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
-                          d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
-                </svg>
-                Dashboard
-            </a>
-
-            <a href="{{ route('industri.applications.index') }}"
-               class="nav-item {{ request()->routeIs('industri.applications.*') ? 'active' : '' }}">
-                <svg style="width: 18px; height: 18px; flex-shrink: 0;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
-                          d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                </svg>
-                Permohonan Saya
-            </a>
-
-            <a href="{{ route('industri.profile') }}"
-               class="nav-item {{ request()->routeIs('industri.profile') ? 'active' : '' }}">
-                <svg style="width: 18px; height: 18px; flex-shrink: 0;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
-                          d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-                </svg>
-                Profil
-            </a>
-        </nav>
-
-        {{-- User + Logout at bottom --}}
-        <div style="padding: 12px 8px 16px; border-top: 1px solid rgba(255,255,255,0.06); flex-shrink: 0;">
-            <div style="padding: 8px 16px; margin-bottom: 4px;">
-                <p style="font-size: 13px; font-weight: 500; color: #d0d6e0; margin: 0 0 2px;">{{ auth()->user()?->name }}</p>
-                <p style="font-size: 12px; color: #62666d; margin: 0;">{{ auth()->user()?->company?->name ?? 'Tiada Syarikat' }}</p>
-            </div>
-            <form method="POST" action="{{ route('industri.logout') }}">
-                @csrf
-                <button type="submit" class="nav-item" style="border-radius: 6px;">
-                    <svg style="width: 18px; height: 18px; flex-shrink: 0;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
-                              d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
-                    </svg>
-                    Log Keluar
-                </button>
-            </form>
-        </div>
-    </aside>
-
-    {{-- Overlay for mobile --}}
-    <div x-show="sidebarOpen" @click="sidebarOpen = false"
-         class="fixed inset-0 z-40 bg-black bg-opacity-50 lg:hidden" x-cloak></div>
-
-    {{-- Main content --}}
-    <div class="main-content" style="flex: 1; display: flex; flex-direction: column; min-width: 0; overflow: hidden;">
-
-        {{-- Top bar --}}
-        <header class="topbar" style="flex-shrink: 0;">
-            <div style="display: flex; align-items: center; gap: 12px;">
-                <button @click="sidebarOpen = true" class="lg:hidden" style="color: #6b7280; background: none; border: none; cursor: pointer; padding: 4px;">
-                    <svg style="width: 22px; height: 22px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-                    </svg>
-                </button>
-                <h1 class="page-title">{{ $title ?? 'Portal Industri' }}</h1>
-            </div>
-            <div style="display: flex; align-items: center; gap: 12px;">
-                <div style="text-align: right;" class="hidden sm:block">
-                    <p style="font-size: 14px; font-weight: 500; color: #111827; margin: 0;">{{ auth()->user()?->name }}</p>
-                    <p style="font-size: 12px; color: #6b7280; margin: 0;">{{ auth()->user()?->company?->name ?? 'Tiada Syarikat' }}</p>
-                </div>
-                <div style="width: 36px; height: 36px; border-radius: 50%; background: #5e6ad2; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600; font-size: 14px; flex-shrink: 0;">
-                    {{ strtoupper(substr(auth()->user()?->name ?? 'U', 0, 1)) }}
-                </div>
-            </div>
-        </header>
-
-        {{-- Page content --}}
-        <main style="flex: 1; overflow-y: auto;">
-            {{ $slot }}
-        </main>
-
-        {{-- Footer --}}
-        <footer style="background: white; border-top: 1px solid #e5e7eb; padding: 10px 24px; flex-shrink: 0;">
-            <p style="font-size: 12px; color: #9ca3af; text-align: center; margin: 0;">myLRMP &copy; Jabatan Pertanian Malaysia</p>
-        </footer>
+        </form>
     </div>
+</nav>
+
+{{-- ═══ MAIN ═══ --}}
+<div class="main">
+
+    {{-- Top bar --}}
+    <div class="topbar">
+        @if(request()->routeIs('industri.applications.show'))
+            <a class="topbar-back" href="{{ route('industri.applications.index') }}">
+                <svg viewBox="0 0 16 16" fill="currentColor" width="14" height="14"><path d="M10.5 3L5 8l5.5 5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Kembali
+            </a>
+            <div class="topbar-divider"></div>
+        @endif
+        <span class="topbar-title">{{ $title ?? 'Portal Industri' }}</span>
+
+        <div class="topbar-right">
+            <div class="topbar-search">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" width="13" height="13">
+                    <circle cx="6.5" cy="6.5" r="4.5"/><path d="M11 11l3 3" stroke-linecap="round"/>
+                </svg>
+                Cari sesuatu...
+            </div>
+            <div style="display:flex;align-items:center;gap:8px">
+                <div class="user-info">
+                    <div class="user-name">{{ auth()->user()?->name }}</div>
+                    <div class="user-role">{{ auth()->user()?->company?->name ?? 'Portal Industri' }}</div>
+                </div>
+                <div class="topbar-avatar">
+                    {{ strtoupper(substr(auth()->user()?->name ?? 'U', 0, 2)) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- Page content --}}
+    <main class="main-scroll">
+        {{ $slot }}
+    </main>
+
 </div>
 
 @livewireScripts

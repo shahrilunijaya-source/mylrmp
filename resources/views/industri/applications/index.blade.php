@@ -1,71 +1,81 @@
-<x-layouts.industri>
-    <x-slot name="title">Permohonan Saya</x-slot>
+<x-layouts.industri title="Permohonan Saya">
 
-    <div class="flex items-center justify-between mb-5">
-        <h2 class="text-xl font-bold text-gray-800">Senarai Permohonan</h2>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+        <div>
+            <div style="font-size:18px;font-weight:700;color:var(--text-1);letter-spacing:-0.02em;">Senarai Permohonan</div>
+            <div style="font-size:12px;color:var(--text-4);margin-top:2px;">Semua permohonan pendaftaran produk syarikat anda</div>
+        </div>
         <a href="{{ route('industri.applications.create') }}"
-           class="inline-flex items-center gap-2 px-4 py-2 bg-green-700 hover:bg-green-800 text-white text-sm font-semibold rounded-lg transition-colors">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+           style="display:inline-flex;align-items:center;gap:6px;padding:8px 14px;background:var(--brand);color:#fff;font-size:13px;font-weight:500;border-radius:8px;text-decoration:none;transition:background 0.12s;"
+           onmouseover="this.style.background='var(--brand-mid)'" onmouseout="this.style.background='var(--brand)'">
+            <svg viewBox="0 0 20 20" fill="currentColor" width="14" height="14">
+                <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"/>
             </svg>
             Permohonan Baharu
         </a>
     </div>
 
-    <div class="bg-white rounded-xl shadow-sm border border-gray-200">
+    <div class="section-card" style="padding:0;overflow:hidden;">
         @if ($applications->isEmpty())
-            <div class="py-16 text-center">
-                <svg class="w-12 h-12 text-gray-300 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                          d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            <div style="padding:60px 20px;text-align:center;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="40" height="40" style="color:var(--text-4);margin:0 auto 12px;display:block;">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                 </svg>
-                <p class="text-gray-400 text-sm">Tiada permohonan lagi.</p>
+                <p style="font-size:13px;color:var(--text-4);margin:0 0 12px;">Tiada permohonan lagi.</p>
                 <a href="{{ route('industri.applications.create') }}"
-                   class="mt-3 inline-block px-4 py-2 bg-green-700 text-white text-sm font-medium rounded-lg hover:bg-green-800">
+                   style="display:inline-block;padding:8px 16px;background:var(--brand);color:#fff;font-size:13px;font-weight:500;border-radius:8px;text-decoration:none;">
                     Mulakan Permohonan Pertama
                 </a>
             </div>
         @else
-            <div class="overflow-x-auto">
-                <table class="w-full text-sm">
+            <div style="overflow-x:auto;">
+                <table class="data-table">
                     <thead>
-                        <tr class="bg-gray-50 border-b border-gray-200 text-left">
-                            <th class="px-5 py-3 font-medium text-gray-600">No. Permohonan</th>
-                            <th class="px-5 py-3 font-medium text-gray-600">Nama Produk</th>
-                            <th class="px-5 py-3 font-medium text-gray-600">Kategori</th>
-                            <th class="px-5 py-3 font-medium text-gray-600">Status</th>
-                            <th class="px-5 py-3 font-medium text-gray-600">Tarikh Hantar</th>
-                            <th class="px-5 py-3"></th>
+                        <tr>
+                            <th>No. Permohonan</th>
+                            <th>Nama Produk</th>
+                            <th>Kategori</th>
+                            <th>Status</th>
+                            <th>Tarikh Hantar</th>
+                            <th></th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-gray-100">
+                    <tbody>
                         @foreach ($applications as $app)
                             @php
-                                $colorMap = [
-                                    'gray'    => 'bg-gray-100 text-gray-700',
-                                    'info'    => 'bg-blue-100 text-blue-700',
-                                    'warning' => 'bg-yellow-100 text-yellow-700',
-                                    'primary' => 'bg-indigo-100 text-indigo-700',
-                                    'success' => 'bg-green-100 text-green-700',
-                                    'danger'  => 'bg-red-100 text-red-700',
-                                ];
-                                $color = $colorMap[$app->current_stage->color()] ?? 'bg-gray-100 text-gray-700';
+                                $chipClass = match($app->current_stage->color()) {
+                                    'success' => 'chip-green',
+                                    'danger'  => 'chip-red',
+                                    'warning' => 'chip-amber',
+                                    'info'    => 'chip-blue',
+                                    'primary' => 'chip-brand',
+                                    default   => 'chip-gray',
+                                };
                             @endphp
-                            <tr class="hover:bg-gray-50">
-                                <td class="px-5 py-3 font-mono text-xs">{{ $app->application_no }}</td>
-                                <td class="px-5 py-3 font-medium text-gray-800">{{ $app->product?->name ?? '-' }}</td>
-                                <td class="px-5 py-3 text-gray-500">{{ $app->category?->name ?? '-' }}</td>
-                                <td class="px-5 py-3">
-                                    <span class="inline-block px-2 py-0.5 text-xs font-medium rounded-full {{ $color }}">
-                                        {{ $app->current_stage->label() }}
+                            <tr>
+                                <td>
+                                    <span style="font-family:'SF Mono','Courier New',monospace;font-size:11px;background:var(--border-soft);padding:2px 6px;border-radius:4px;color:var(--text-2);">
+                                        {{ $app->application_no }}
                                     </span>
                                 </td>
-                                <td class="px-5 py-3 text-gray-500">
+                                <td style="font-weight:500;color:var(--text-1);">{{ $app->product?->name ?? '-' }}</td>
+                                <td>
+                                    @if($app->category?->name)
+                                        <span class="chip chip-gray">{{ $app->category->name }}</span>
+                                    @else
+                                        <span style="color:var(--text-4);">-</span>
+                                    @endif
+                                </td>
+                                <td>
+                                    <span class="chip {{ $chipClass }}">{{ $app->current_stage->label() }}</span>
+                                </td>
+                                <td style="color:var(--text-3);font-size:12px;">
                                     {{ $app->submitted_at?->format('d/m/Y') ?? '-' }}
                                 </td>
-                                <td class="px-5 py-3 text-right">
+                                <td style="text-align:right;padding-right:16px;">
                                     <a href="{{ route('industri.applications.show', $app) }}"
-                                       class="inline-flex items-center gap-1 text-xs text-green-700 hover:text-green-900 font-medium border border-green-300 px-3 py-1.5 rounded-md hover:bg-green-50 transition-colors">
+                                       style="font-size:12px;font-weight:500;color:var(--brand);text-decoration:none;border:1px solid var(--brand);padding:4px 12px;border-radius:6px;display:inline-block;transition:all 0.12s;"
+                                       onmouseover="this.style.background='var(--brand-light)'" onmouseout="this.style.background='transparent'">
                                         Lihat
                                     </a>
                                 </td>
@@ -75,12 +85,12 @@
                 </table>
             </div>
 
-            {{-- Pagination --}}
             @if ($applications->hasPages())
-                <div class="px-5 py-4 border-t border-gray-100">
+                <div style="padding:12px 16px;border-top:1px solid var(--border-soft);">
                     {{ $applications->links() }}
                 </div>
             @endif
         @endif
     </div>
+
 </x-layouts.industri>
