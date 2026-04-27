@@ -1,14 +1,14 @@
-<x-layouts.public title="Kalkulator Dos">
+<x-layouts.public title="{{ __('app.calculator.title') }}">
 
     {{-- Page header --}}
     <div class="bg-doa-700 text-white py-8">
         <div class="max-w-7xl mx-auto px-4">
             <nav class="text-xs text-green-300 mb-2">
-                <a href="{{ route('home') }}" class="hover:text-white">Laman Utama</a>
+                <a href="{{ route('home') }}" class="hover:text-white">{{ __('app.nav.home') }}</a>
                 <span class="mx-1">/</span>
-                <span>Kalkulator</span>
+                <span>{{ __('app.nav.calculator') }}</span>
             </nav>
-            <h1 class="text-2xl font-bold">Kalkulator Pengiraan Kadar/Dos Racun</h1>
+            <h1 class="text-2xl font-bold">{{ __('app.calculator.title') }}</h1>
             <p class="text-green-200 text-sm mt-1">Kira jumlah racun yang diperlukan berdasarkan keluasan kawasan</p>
         </div>
     </div>
@@ -37,8 +37,7 @@
                 {{-- Keluasan kawasan --}}
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 mb-1.5">
-                        Keluasan Kawasan
-                        <span class="text-gray-400 font-normal">(hektar)</span>
+                        {{ __('app.calculator.area') }}
                     </label>
                     <div class="flex items-center gap-2">
                         <input type="number" x-model="kawasan" min="0" step="0.01" placeholder="Contoh: 2.5"
@@ -50,7 +49,7 @@
                 {{-- Kadar disyorkan --}}
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 mb-1.5">
-                        Kadar Disyorkan
+                        {{ __('app.calculator.rate') }}
                         <span class="text-gray-400 font-normal">(berdasarkan label produk)</span>
                     </label>
                     <div class="flex items-center gap-2">
@@ -78,7 +77,7 @@
                  :class="jumlah ? 'bg-doa-50 border-doa-200' : 'bg-gray-50 border-gray-200'">
                 <p class="text-xs font-semibold uppercase tracking-wide mb-2"
                    :class="jumlah ? 'text-doa-600' : 'text-gray-400'">
-                    Jumlah yang Diperlukan
+                    {{ __('app.calculator.result') }}
                 </p>
                 <div class="flex items-baseline gap-2">
                     <span class="text-4xl font-bold"
@@ -115,7 +114,7 @@
             </svg>
             <p class="text-sm text-amber-700">
                 <span class="font-semibold">Penafian:</span>
-                Pengiraan ini adalah untuk panduan sahaja. Sila rujuk label produk untuk arahan sebenar.
+                {{ __('app.calculator.disclaimer') }}
                 Kadar penggunaan mungkin berbeza mengikut jenis perosak, tanaman, dan keadaan persekitaran.
                 Pastikan penggunaan racun mematuhi peraturan di bawah Akta Racun Makhluk Perosak 1974 (Akta 149).
             </p>

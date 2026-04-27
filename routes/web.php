@@ -11,6 +11,14 @@ use App\Http\Controllers\Public\HomeController;
 use App\Http\Controllers\Public\ProductSearchController;
 use Illuminate\Support\Facades\Route;
 
+// Language switcher
+Route::get('/lang/{locale}', function ($locale) {
+    if (in_array($locale, ['ms', 'en'])) {
+        session(['locale' => $locale]);
+    }
+    return redirect()->back();
+})->name('lang.switch');
+
 // Public portal (no auth required)
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/produk', [ProductSearchController::class, 'index'])->name('products.search');

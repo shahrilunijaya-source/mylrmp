@@ -17,8 +17,16 @@
         }
     }
     </script>
+    <meta name="description" content="Sistem Bersepadu Racun Makhluk Perosak (myLRMP) - Portal rasmi pendaftaran dan pengurusan racun makhluk perosak Jabatan Pertanian Malaysia">
+    <meta property="og:title" content="myLRMP - Jabatan Pertanian Malaysia">
+    <meta property="og:type" content="website">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="//unpkg.com/alpinejs" defer></script>
+    <style>
+        .doa-hero-bg { background: linear-gradient(135deg, #006837 0%, #004d28 60%, #003d20 100%); }
+        .doa-card { border-left: 4px solid #006837; }
+        .stage-badge { font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+    </style>
     @livewireStyles
 </head>
 <body class="bg-gray-50 font-sans antialiased">
@@ -39,9 +47,11 @@
         </div>
         {{-- Language toggle --}}
         <div class="flex items-center gap-2 text-xs">
-            <a href="#" class="font-semibold text-doa-600 border-b-2 border-doa-500 pb-0.5">BM</a>
+            <a href="{{ route('lang.switch', 'ms') }}"
+               class="{{ app()->getLocale() === 'ms' ? 'font-semibold text-doa-600 border-b-2 border-doa-500 pb-0.5' : 'text-gray-500 hover:text-doa-600 transition-colors' }}">BM</a>
             <span class="text-gray-300">|</span>
-            <a href="#" class="text-gray-500 hover:text-doa-600 transition-colors">EN</a>
+            <a href="{{ route('lang.switch', 'en') }}"
+               class="{{ app()->getLocale() === 'en' ? 'font-semibold text-doa-600 border-b-2 border-doa-500 pb-0.5' : 'text-gray-500 hover:text-doa-600 transition-colors' }}">EN</a>
         </div>
     </div>
 </div>
@@ -63,21 +73,21 @@
                 <a href="{{ route('home') }}"
                    class="px-3 py-2 rounded text-sm font-medium transition-colors
                           {{ request()->routeIs('home') ? 'bg-doa-500 text-white' : 'text-green-100 hover:bg-doa-600 hover:text-white' }}">
-                    Laman Utama
+                    {{ __('app.nav.home') }}
                 </a>
                 <a href="{{ route('products.search') }}"
                    class="px-3 py-2 rounded text-sm font-medium transition-colors
                           {{ request()->routeIs('products.*') ? 'bg-doa-500 text-white' : 'text-green-100 hover:bg-doa-600 hover:text-white' }}">
-                    Carian Produk
+                    {{ __('app.nav.search') }}
                 </a>
                 <a href="{{ route('calculator') }}"
                    class="px-3 py-2 rounded text-sm font-medium transition-colors
                           {{ request()->routeIs('calculator') ? 'bg-doa-500 text-white' : 'text-green-100 hover:bg-doa-600 hover:text-white' }}">
-                    Kalkulator
+                    {{ __('app.nav.calculator') }}
                 </a>
                 <a href="#hubungi"
                    class="px-3 py-2 rounded text-sm font-medium text-green-100 hover:bg-doa-600 hover:text-white transition-colors">
-                    Hubungi Kami
+                    {{ __('app.nav.contact') }}
                 </a>
                 <a href="{{ route('industri.login') }}"
                    class="ml-3 px-4 py-1.5 rounded bg-gold-400 text-doa-800 text-sm font-semibold hover:bg-gold-500 transition-colors">
@@ -96,10 +106,10 @@
 
         {{-- Mobile menu --}}
         <div x-show="open" x-cloak class="md:hidden pb-3 space-y-1">
-            <a href="{{ route('home') }}" class="block px-3 py-2 rounded text-sm font-medium text-green-100 hover:bg-doa-600">Laman Utama</a>
-            <a href="{{ route('products.search') }}" class="block px-3 py-2 rounded text-sm font-medium text-green-100 hover:bg-doa-600">Carian Produk</a>
-            <a href="{{ route('calculator') }}" class="block px-3 py-2 rounded text-sm font-medium text-green-100 hover:bg-doa-600">Kalkulator</a>
-            <a href="#hubungi" class="block px-3 py-2 rounded text-sm font-medium text-green-100 hover:bg-doa-600">Hubungi Kami</a>
+            <a href="{{ route('home') }}" class="block px-3 py-2 rounded text-sm font-medium text-green-100 hover:bg-doa-600">{{ __('app.nav.home') }}</a>
+            <a href="{{ route('products.search') }}" class="block px-3 py-2 rounded text-sm font-medium text-green-100 hover:bg-doa-600">{{ __('app.nav.search') }}</a>
+            <a href="{{ route('calculator') }}" class="block px-3 py-2 rounded text-sm font-medium text-green-100 hover:bg-doa-600">{{ __('app.nav.calculator') }}</a>
+            <a href="#hubungi" class="block px-3 py-2 rounded text-sm font-medium text-green-100 hover:bg-doa-600">{{ __('app.nav.contact') }}</a>
             <a href="{{ route('industri.login') }}" class="block px-3 py-2 rounded text-sm font-medium text-green-100 hover:bg-doa-600">Log Masuk</a>
         </div>
     </div>
@@ -147,8 +157,8 @@
             </div>
         </div>
         <div class="border-t border-doa-700 mt-8 pt-6 text-center space-y-1">
-            <p class="text-green-300 text-sm">&copy; 2026 Jabatan Pertanian Malaysia. Hak cipta terpelihara.</p>
-            <p class="text-green-400 text-xs">Dibangunkan di bawah Akta Racun Makhluk Perosak 1974 (Akta 149)</p>
+            <p class="text-green-300 text-sm">&copy; 2026 Jabatan Pertanian Malaysia. {{ __('app.footer.rights') }}</p>
+            <p class="text-green-400 text-xs">{{ __('app.footer.act') }}</p>
         </div>
     </div>
 </footer>

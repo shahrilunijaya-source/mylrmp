@@ -1,13 +1,13 @@
 <x-layouts.public title="Laman Utama">
 
     {{-- Hero section --}}
-    <section class="bg-doa-700 text-white">
+    <section class="doa-hero-bg text-white">
         <div class="max-w-7xl mx-auto px-4 py-16 md:py-24 text-center">
             <p class="text-gold-400 text-sm font-semibold uppercase tracking-widest mb-3">Portal Rasmi</p>
             <h1 class="text-3xl md:text-5xl font-bold leading-tight mb-4">
-                Sistem Bersepadu<br>Racun Makhluk Perosak
+                {{ __('app.home.hero_title') }}
             </h1>
-            <p class="text-green-200 text-lg md:text-xl mb-10">Jabatan Pertanian Malaysia</p>
+            <p class="text-green-200 text-lg md:text-xl mb-10">{{ __('app.home.hero_subtitle') }}</p>
 
             {{-- Hero search bar --}}
             <div class="max-w-2xl mx-auto">
@@ -15,7 +15,7 @@
                     <input
                         type="text"
                         name="q"
-                        placeholder="Cari produk, nombor pendaftaran atau bahan aktif..."
+                        placeholder="{{ __('app.home.search_placeholder') }}"
                         class="flex-1 px-5 py-3.5 rounded-lg text-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-gold-400 shadow-lg"
                     />
                     <button type="submit"

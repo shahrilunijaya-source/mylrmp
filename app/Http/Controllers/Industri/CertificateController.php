@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Industri;
 
 use App\Http\Controllers\Controller;
 use App\Models\Certificate;
+use App\Services\CertificateGenerator;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -14,12 +15,14 @@ class CertificateController extends Controller
     {
         Gate::authorize('view', $certificate);
 
-        if (! $certificate->pdf_path || ! Storage::disk('private')->exists($certificate->pdf_path)) {
-            abort(404, 'Fail sijil tidak ditemui. Sila hubungi pihak pentadbiran.');
+        if (! $certificate->pdf_path || ! Storage::disk('local')->exists($certificate->pdf_path)) {
+            app(CertificateGenerator::class)->generate($certificate);
+            $certificate->refresh();
         }
 
-        $filename = 'Sijil-' . $certificate->registration_no . '.pdf';
-
-        return Storage::disk('private')->download($certificate->pdf_path, $filename);
+        return Storage::disk('local')->download(
+            $certificate->pdf_path,
+            $certificate->registration_no . '.pdf'
+        );
     }
 }
