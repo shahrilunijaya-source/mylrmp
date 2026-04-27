@@ -11,6 +11,10 @@ use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
+use App\Filament\Widgets\ApplicationsByStageChart;
+use App\Filament\Widgets\ApplicationsTimelineChart;
+use App\Filament\Widgets\KpiOverviewWidget;
+use App\Filament\Widgets\RecentActivitiesWidget;
 use Filament\Widgets\AccountWidget;
 use Filament\Widgets\FilamentInfoWidget;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
@@ -50,6 +54,10 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\Filament\Widgets')
             ->widgets([
+                KpiOverviewWidget::class,
+                ApplicationsByStageChart::class,
+                ApplicationsTimelineChart::class,
+                RecentActivitiesWidget::class,
                 AccountWidget::class,
                 FilamentInfoWidget::class,
             ])
