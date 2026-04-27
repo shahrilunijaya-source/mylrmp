@@ -36,7 +36,6 @@ return new class extends Migration
 
             $table->index('registrant_company_id');
             $table->index('status');
-            $table->index('registration_no');
         });
     }
 

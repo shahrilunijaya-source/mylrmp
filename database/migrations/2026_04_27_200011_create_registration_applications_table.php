@@ -61,6 +61,7 @@ return new class extends Migration
                 ->on('products')
                 ->onDelete('set null');
 
+            $table->index('applicant_user_id');
             $table->index('applicant_company_id');
             $table->index('current_stage');
         });

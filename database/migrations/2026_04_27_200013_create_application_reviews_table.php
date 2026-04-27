@@ -33,6 +33,8 @@ return new class extends Migration
                 ->references('id')
                 ->on('users')
                 ->onDelete('restrict');
+
+            $table->index('application_id');
         });
     }
 
