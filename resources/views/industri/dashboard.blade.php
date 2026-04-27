@@ -1,98 +1,108 @@
 <x-layouts.industri>
     <x-slot name="title">Dashboard</x-slot>
 
-    {{-- Session messages --}}
-    @if (session('success'))
-        <div class="mb-4 p-3 bg-green-50 border border-green-200 rounded-lg text-sm text-green-800">
-            {{ session('success') }}
-        </div>
-    @endif
+    <div class="content-area">
 
-    {{-- Stat tiles --}}
-    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
-            <p class="text-xs font-medium text-gray-500 uppercase tracking-wide">Jumlah Permohonan</p>
-            <p class="mt-2 text-3xl font-bold text-gray-900">{{ $total }}</p>
-        </div>
-        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
-            <p class="text-xs font-medium text-yellow-600 uppercase tracking-wide">Dalam Proses</p>
-            <p class="mt-2 text-3xl font-bold text-yellow-600">{{ $pending + $inReview }}</p>
-        </div>
-        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
-            <p class="text-xs font-medium text-green-600 uppercase tracking-wide">Diluluskan</p>
-            <p class="mt-2 text-3xl font-bold text-green-600">{{ $approved }}</p>
-        </div>
-        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
-            <p class="text-xs font-medium text-red-600 uppercase tracking-wide">Ditolak</p>
-            <p class="mt-2 text-3xl font-bold text-red-600">{{ $rejected }}</p>
-        </div>
-    </div>
-
-    {{-- Recent applications --}}
-    <div class="bg-white rounded-xl shadow-sm border border-gray-200">
-        <div class="flex items-center justify-between px-5 py-4 border-b border-gray-100">
-            <h2 class="font-semibold text-gray-800">Permohonan Terkini</h2>
-            <a href="{{ route('industri.applications.index') }}"
-               class="text-sm text-green-700 hover:text-green-900 font-medium">
-                Lihat Semua
-            </a>
-        </div>
-
-        @if ($recentApplications->isEmpty())
-            <div class="px-5 py-10 text-center">
-                <p class="text-gray-400 text-sm">Tiada permohonan lagi.</p>
-                <a href="{{ route('industri.applications.create') }}"
-                   class="mt-3 inline-block px-4 py-2 bg-green-700 text-white text-sm font-medium rounded-lg hover:bg-green-800">
-                    Buat Permohonan Baharu
-                </a>
-            </div>
-        @else
-            <div class="overflow-x-auto">
-                <table class="w-full text-sm">
-                    <thead>
-                        <tr class="bg-gray-50 text-left">
-                            <th class="px-5 py-3 font-medium text-gray-600">No. Permohonan</th>
-                            <th class="px-5 py-3 font-medium text-gray-600">Produk</th>
-                            <th class="px-5 py-3 font-medium text-gray-600">Status</th>
-                            <th class="px-5 py-3 font-medium text-gray-600">Tarikh</th>
-                            <th class="px-5 py-3"></th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-gray-100">
-                        @foreach ($recentApplications as $app)
-                            <tr class="hover:bg-gray-50">
-                                <td class="px-5 py-3 font-mono text-xs">{{ $app->application_no }}</td>
-                                <td class="px-5 py-3">{{ $app->product?->name ?? '-' }}</td>
-                                <td class="px-5 py-3">
-                                    @php
-                                        $colorMap = [
-                                            'gray'    => 'bg-gray-100 text-gray-700',
-                                            'info'    => 'bg-blue-100 text-blue-700',
-                                            'warning' => 'bg-yellow-100 text-yellow-700',
-                                            'primary' => 'bg-indigo-100 text-indigo-700',
-                                            'success' => 'bg-green-100 text-green-700',
-                                            'danger'  => 'bg-red-100 text-red-700',
-                                        ];
-                                        $color = $colorMap[$app->current_stage->color()] ?? 'bg-gray-100 text-gray-700';
-                                    @endphp
-                                    <span class="inline-block px-2 py-0.5 text-xs font-medium rounded-full {{ $color }}">
-                                        {{ $app->current_stage->label() }}
-                                    </span>
-                                </td>
-                                <td class="px-5 py-3 text-gray-500">
-                                    {{ $app->submitted_at?->format('d/m/Y') ?? $app->created_at->format('d/m/Y') }}
-                                </td>
-                                <td class="px-5 py-3">
-                                    <a href="{{ route('industri.applications.show', $app) }}"
-                                       class="text-green-700 hover:text-green-900 text-xs font-medium">
-                                        Lihat
-                                    </a>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+        {{-- Session messages --}}
+        @if (session('success'))
+            <div style="margin-bottom: 16px; padding: 12px 16px; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; font-size: 14px; color: #15803d;">
+                {{ session('success') }}
             </div>
         @endif
+
+        {{-- KPI cards --}}
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px;">
+            <div class="kpi-card">
+                <div class="kpi-label">Jumlah Permohonan</div>
+                <div class="kpi-value">{{ $total }}</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Dalam Proses</div>
+                <div class="kpi-value orange">{{ $pending + $inReview }}</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Diluluskan</div>
+                <div class="kpi-value green">{{ $approved }}</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Ditolak</div>
+                <div class="kpi-value red">{{ $rejected }}</div>
+            </div>
+        </div>
+
+        {{-- Recent applications --}}
+        <div style="background: white; border: 1px solid #e5e7eb; border-radius: 12px; overflow: hidden;">
+            <div style="display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid #f3f4f6;">
+                <h2 style="font-size: 16px; font-weight: 600; color: #111827; letter-spacing: -0.01em; margin: 0;">Permohonan Terkini</h2>
+                <a href="{{ route('industri.applications.index') }}"
+                   style="font-size: 13px; font-weight: 500; color: #5e6ad2; text-decoration: none; transition: color 0.15s;"
+                   onmouseover="this.style.color='#7170ff'"
+                   onmouseout="this.style.color='#5e6ad2'">
+                    Lihat Semua &rarr;
+                </a>
+            </div>
+
+            @if ($recentApplications->isEmpty())
+                <div style="padding: 48px 20px; text-align: center;">
+                    <p style="font-size: 14px; color: #9ca3af; margin: 0 0 12px;">Tiada permohonan lagi.</p>
+                    <a href="{{ route('industri.applications.create') }}"
+                       style="display: inline-block; padding: 8px 16px; background: #5e6ad2; color: white; font-size: 13px; font-weight: 500; border-radius: 8px; text-decoration: none; transition: background 0.15s;"
+                       onmouseover="this.style.background='#7170ff'"
+                       onmouseout="this.style.background='#5e6ad2'">
+                        Buat Permohonan Baharu
+                    </a>
+                </div>
+            @else
+                <div style="overflow-x: auto;">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>No. Permohonan</th>
+                                <th>Produk</th>
+                                <th>Status</th>
+                                <th>Tarikh</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($recentApplications as $app)
+                                <tr>
+                                    <td>
+                                        <span style="font-family: 'SF Mono', 'Fira Code', monospace; font-size: 12px; color: #374151;">{{ $app->application_no }}</span>
+                                    </td>
+                                    <td style="font-weight: 500; color: #111827;">{{ $app->product?->name ?? '-' }}</td>
+                                    <td>
+                                        @php
+                                            $stageLabel = $app->current_stage->label();
+                                            $badgeClass = match($app->current_stage->color()) {
+                                                'success' => 'badge-diluluskan',
+                                                'danger'  => 'badge-ditolak',
+                                                'warning' => 'badge-dalam-proses',
+                                                'info'    => 'badge-dihantar',
+                                                'primary' => 'badge-semakan',
+                                                default   => 'badge-draf',
+                                            };
+                                        @endphp
+                                        <span class="badge {{ $badgeClass }}">{{ $stageLabel }}</span>
+                                    </td>
+                                    <td style="color: #6b7280; font-size: 13px;">
+                                        {{ $app->submitted_at?->format('d/m/Y') ?? $app->created_at->format('d/m/Y') }}
+                                    </td>
+                                    <td>
+                                        <a href="{{ route('industri.applications.show', $app) }}"
+                                           style="font-size: 13px; font-weight: 500; color: #5e6ad2; text-decoration: none; transition: color 0.15s;"
+                                           onmouseover="this.style.color='#7170ff'"
+                                           onmouseout="this.style.color='#5e6ad2'">
+                                            Lihat
+                                        </a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            @endif
+        </div>
+
     </div>
 </x-layouts.industri>

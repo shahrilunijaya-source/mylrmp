@@ -1,34 +1,33 @@
 <x-layouts.public title="Carian Produk">
 
     {{-- Page header --}}
-    <div class="bg-doa-700 text-white py-8">
-        <div class="max-w-7xl mx-auto px-4">
-            <nav class="text-xs text-green-300 mb-2">
-                <a href="{{ route('home') }}" class="hover:text-white">Laman Utama</a>
-                <span class="mx-1">/</span>
-                <span>Carian Produk</span>
+    <div style="background: linear-gradient(135deg, #006837 0%, #004d28 60%, #003d20 100%); padding: 32px 0;">
+        <div style="max-width: 1280px; margin: 0 auto; padding: 0 16px;">
+            <nav style="font-size: 12px; color: #86efac; margin-bottom: 8px;">
+                <a href="{{ route('home') }}" style="color: #86efac; text-decoration: none; transition: color 0.15s;" onmouseover="this.style.color='white'" onmouseout="this.style.color='#86efac'">Laman Utama</a>
+                <span style="margin: 0 6px; opacity: 0.5;">/</span>
+                <span style="color: #d1fae5;">Carian Produk</span>
             </nav>
-            <h1 class="text-2xl font-bold">Carian Produk Berdaftar</h1>
-            <p class="text-green-200 text-sm mt-1">Semak status pendaftaran produk racun makhluk perosak</p>
+            <h1 style="color: white; font-size: 26px; font-weight: 700; letter-spacing: -0.02em; margin: 0 0 4px;">Carian Produk Berdaftar</h1>
+            <p style="color: #86efac; font-size: 14px; margin: 0;">Semak status pendaftaran produk racun makhluk perosak</p>
         </div>
     </div>
 
-    <div class="max-w-7xl mx-auto px-4 py-8">
+    <div style="max-width: 1280px; margin: 0 auto; padding: 32px 16px;">
 
         {{-- Search form --}}
-        <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6 mb-8">
-            <form action="{{ route('products.search') }}" method="GET" class="space-y-4">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div class="md:col-span-1">
-                        <label class="block text-xs font-semibold text-gray-600 mb-1.5 uppercase tracking-wide">Carian</label>
+        <div style="background: white; border-radius: 12px; border: 1px solid #e5e7eb; box-shadow: 0 1px 3px rgba(0,0,0,0.06); padding: 24px; margin-bottom: 32px;">
+            <form action="{{ route('products.search') }}" method="GET">
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 16px;" class="grid-cols-1 md:grid-cols-3">
+                    <div>
+                        <label style="display: block; font-size: 11px; font-weight: 600; color: #6b7280; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 6px;">Carian</label>
                         <input type="text" name="q" value="{{ $query }}"
                                placeholder="Nama produk, No. Pendaftaran atau Bahan Aktif..."
-                               class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-doa-400 focus:border-transparent"/>
+                               class="search-input"/>
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-gray-600 mb-1.5 uppercase tracking-wide">Jenis Formulasi</label>
-                        <select name="formulation_type_id"
-                                class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-doa-400 focus:border-transparent">
+                        <label style="display: block; font-size: 11px; font-weight: 600; color: #6b7280; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 6px;">Jenis Formulasi</label>
+                        <select name="formulation_type_id" class="search-input" style="cursor: pointer;">
                             <option value="">-- Semua --</option>
                             @foreach($formulationTypes as $ft)
                                 <option value="{{ $ft->id }}" {{ $formulationTypeId == $ft->id ? 'selected' : '' }}>
@@ -38,9 +37,8 @@
                         </select>
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-gray-600 mb-1.5 uppercase tracking-wide">Kategori</label>
-                        <select name="category_id"
-                                class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-doa-400 focus:border-transparent">
+                        <label style="display: block; font-size: 11px; font-weight: 600; color: #6b7280; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 6px;">Kategori</label>
+                        <select name="category_id" class="search-input" style="cursor: pointer;">
                             <option value="">-- Semua --</option>
                             @foreach($categories as $cat)
                                 <option value="{{ $cat->id }}" {{ $categoryId == $cat->id ? 'selected' : '' }}>
@@ -50,14 +48,15 @@
                         </select>
                     </div>
                 </div>
-                <div class="flex items-center gap-3">
-                    <button type="submit"
-                            class="px-6 py-2.5 bg-doa-600 text-white text-sm font-semibold rounded-lg hover:bg-doa-700 transition-colors">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <button type="submit" class="btn-primary">
                         Cari
                     </button>
                     @if($query || $formulationTypeId || $categoryId)
                         <a href="{{ route('products.search') }}"
-                           class="px-4 py-2.5 text-sm text-gray-600 hover:text-gray-800 transition-colors">
+                           style="padding: 10px 16px; font-size: 14px; color: #6b7280; text-decoration: none; transition: color 0.15s;"
+                           onmouseover="this.style.color='#111827'"
+                           onmouseout="this.style.color='#6b7280'">
                             Kosongkan
                         </a>
                     @endif
@@ -66,63 +65,65 @@
         </div>
 
         {{-- Real-time search widget --}}
-        <div class="mb-8">
+        <div style="margin-bottom: 32px;">
             <livewire:public.product-search />
         </div>
 
         {{-- Results --}}
         @if($products->isEmpty())
-            <div class="text-center py-16 bg-white rounded-xl border border-gray-200">
-                <svg class="w-12 h-12 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            <div style="text-align: center; padding: 64px 16px; background: white; border-radius: 12px; border: 1px solid #e5e7eb;">
+                <svg style="width: 48px; height: 48px; color: #d1d5db; margin: 0 auto 16px;" fill="none" stroke="#d1d5db" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                           d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                 </svg>
-                <p class="text-gray-500 font-medium">Tiada rekod dijumpai. Cuba carian lain.</p>
-                <a href="{{ route('products.search') }}" class="mt-3 inline-block text-doa-600 text-sm hover:underline">Lihat semua produk</a>
+                <p style="font-size: 15px; font-weight: 500; color: #6b7280; margin: 0 0 8px;">Tiada rekod dijumpai. Cuba carian lain.</p>
+                <a href="{{ route('products.search') }}" style="font-size: 14px; color: #006837; text-decoration: none; font-weight: 500;">Lihat semua produk</a>
             </div>
         @else
-            <div class="mb-4 flex items-center justify-between">
-                <p class="text-sm text-gray-500">
-                    Menunjukkan <span class="font-semibold text-gray-700">{{ $products->firstItem() }}–{{ $products->lastItem() }}</span>
-                    daripada <span class="font-semibold text-gray-700">{{ $products->total() }}</span> rekod
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+                <p style="font-size: 13px; color: #6b7280; margin: 0;">
+                    Menunjukkan <span style="font-weight: 600; color: #374151;">{{ $products->firstItem() }}–{{ $products->lastItem() }}</span>
+                    daripada <span style="font-weight: 600; color: #374151;">{{ $products->total() }}</span> rekod
                 </p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; margin-bottom: 32px;">
                 @foreach($products as $product)
                     <a href="{{ route('products.show', $product) }}"
-                       class="block bg-white border border-gray-200 rounded-xl p-5 hover:shadow-md hover:border-doa-300 transition-all group">
-                        <div class="flex items-start justify-between gap-2 mb-3">
-                            <span class="text-xs font-mono font-semibold text-doa-600 bg-doa-50 px-2 py-0.5 rounded">
+                       style="display: block; background: white; border: 1px solid #e5e7eb; border-radius: 12px; padding: 16px; text-decoration: none; transition: all 0.2s;"
+                       onmouseover="this.style.borderColor='#006837'; this.style.boxShadow='0 4px 16px rgba(0,104,55,0.1)';"
+                       onmouseout="this.style.borderColor='#e5e7eb'; this.style.boxShadow='none';">
+                        <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 10px;">
+                            <span style="font-family: 'SF Mono', 'Fira Code', monospace; font-size: 12px; font-weight: 600; color: #006837; background: #f0fdf4; padding: 2px 8px; border-radius: 6px; border: 1px solid #dcfce7;">
                                 {{ $product->registration_no }}
                             </span>
                             @php
-                                $statusClass = match($product->status->value) {
-                                    'active'    => 'bg-green-100 text-green-700',
-                                    'expired'   => 'bg-amber-100 text-amber-700',
-                                    'cancelled' => 'bg-red-100 text-red-700',
-                                    default     => 'bg-gray-100 text-gray-600',
+                                $badgeClass = match($product->status->value) {
+                                    'active'    => 'badge-success',
+                                    'expired'   => 'badge-warning',
+                                    'cancelled' => 'badge-danger',
+                                    default     => 'badge-gray',
                                 };
                             @endphp
-                            <span class="text-xs font-semibold px-2 py-0.5 rounded {{ $statusClass }}">
+                            <span class="badge {{ $badgeClass }}">
                                 {{ $product->status->label() }}
                             </span>
                         </div>
-                        <h3 class="font-semibold text-gray-800 text-sm leading-snug mb-3 group-hover:text-doa-700 transition-colors">
+                        <h3 style="font-size: 15px; font-weight: 600; color: #111827; letter-spacing: -0.01em; line-height: 1.4; margin: 0 0 10px;">
                             {{ $product->name }}
                         </h3>
-                        <div class="space-y-1 text-xs text-gray-500">
-                            <div class="flex gap-2">
-                                <span class="w-24 flex-shrink-0 font-medium text-gray-400">Pendaftar</span>
-                                <span class="truncate">{{ $product->registrant?->name ?? '—' }}</span>
+                        <div style="display: flex; flex-direction: column; gap: 4px;">
+                            <div style="display: flex; gap: 8px; font-size: 13px; color: #6b7280;">
+                                <span style="width: 72px; flex-shrink: 0; font-weight: 500; color: #9ca3af;">Pendaftar</span>
+                                <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ $product->registrant?->name ?? '—' }}</span>
                             </div>
-                            <div class="flex gap-2">
-                                <span class="w-24 flex-shrink-0 font-medium text-gray-400">Formulasi</span>
+                            <div style="display: flex; gap: 8px; font-size: 13px; color: #6b7280;">
+                                <span style="width: 72px; flex-shrink: 0; font-weight: 500; color: #9ca3af;">Formulasi</span>
                                 <span>{{ $product->formulationType?->name_ms ?? '—' }}</span>
                             </div>
                             @if($product->expires_at)
-                                <div class="flex gap-2">
-                                    <span class="w-24 flex-shrink-0 font-medium text-gray-400">Tamat</span>
+                                <div style="display: flex; gap: 8px; font-size: 13px; color: #6b7280;">
+                                    <span style="width: 72px; flex-shrink: 0; font-weight: 500; color: #9ca3af;">Tamat</span>
                                     <span>{{ $product->expires_at->format('d/m/Y') }}</span>
                                 </div>
                             @endif
@@ -132,7 +133,7 @@
             </div>
 
             {{-- Pagination --}}
-            <div class="flex justify-center">
+            <div style="display: flex; justify-content: center;">
                 {{ $products->links() }}
             </div>
         @endif
