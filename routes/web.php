@@ -6,11 +6,16 @@ use App\Http\Controllers\Industri\CertificateController;
 use App\Http\Controllers\Industri\CompanyRegistrationController;
 use App\Http\Controllers\Industri\IndustriDashboardController;
 use App\Http\Controllers\Industri\ProfileController;
+use App\Http\Controllers\Public\CalculatorController;
+use App\Http\Controllers\Public\HomeController;
+use App\Http\Controllers\Public\ProductSearchController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Public portal (no auth required)
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/produk', [ProductSearchController::class, 'index'])->name('products.search');
+Route::get('/produk/{product}', [ProductSearchController::class, 'show'])->name('products.show');
+Route::get('/kalkulator', [CalculatorController::class, 'index'])->name('calculator');
 
 // Redirect /dashboard based on role
 Route::get('/dashboard', function () {
