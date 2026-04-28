@@ -12,6 +12,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
@@ -43,45 +44,65 @@ class CompanyResource extends Resource
     {
         return $schema
             ->components([
-                TextInput::make('name')
-                    ->label('Nama Syarikat')
-                    ->required()
-                    ->maxLength(255),
+                Section::make('Maklumat Asas')
+                    ->description('Nama, nombor pendaftaran dan alamat syarikat')
+                    ->icon('heroicon-o-building-office-2')
+                    ->columns(2)
+                    ->schema([
+                        TextInput::make('name')
+                            ->label('Nama Syarikat')
+                            ->required()
+                            ->maxLength(255),
 
-                TextInput::make('ssm_no')
-                    ->label('No. SSM')
-                    ->maxLength(100),
+                        TextInput::make('ssm_no')
+                            ->label('No. SSM')
+                            ->maxLength(100),
 
-                Textarea::make('address')
-                    ->label('Alamat')
-                    ->rows(3),
+                        Textarea::make('address')
+                            ->label('Alamat')
+                            ->rows(3)
+                            ->columnSpanFull(),
+                    ]),
 
-                TextInput::make('phone')
-                    ->label('Telefon')
-                    ->tel()
-                    ->maxLength(20),
+                Section::make('Maklumat Hubungan')
+                    ->description('Nombor telefon, e-mel dan pegawai perhubungan')
+                    ->icon('heroicon-o-phone')
+                    ->columns(2)
+                    ->schema([
+                        TextInput::make('phone')
+                            ->label('Telefon')
+                            ->tel()
+                            ->maxLength(20),
 
-                TextInput::make('email')
-                    ->label('E-mel')
-                    ->email()
-                    ->maxLength(255),
+                        TextInput::make('contact_person')
+                            ->label('Pegawai Perhubungan')
+                            ->maxLength(255),
 
-                TextInput::make('contact_person')
-                    ->label('Pegawai Perhubungan')
-                    ->maxLength(255),
+                        TextInput::make('email')
+                            ->label('E-mel')
+                            ->email()
+                            ->maxLength(255)
+                            ->columnSpanFull(),
+                    ]),
 
-                Select::make('status')
-                    ->label('Status')
-                    ->options([
-                        CompanyStatus::Active->value    => 'Aktif',
-                        CompanyStatus::Suspended->value => 'Digantung',
-                        CompanyStatus::Inactive->value  => 'Tidak Aktif',
-                    ])
-                    ->default(CompanyStatus::Active->value)
-                    ->required(),
+                Section::make('Status & Pendaftaran')
+                    ->description('Status operasi dan tarikh daftar dengan LRMP')
+                    ->icon('heroicon-o-clipboard-document-check')
+                    ->columns(2)
+                    ->schema([
+                        Select::make('status')
+                            ->label('Status')
+                            ->options([
+                                CompanyStatus::Active->value    => 'Aktif',
+                                CompanyStatus::Suspended->value => 'Digantung',
+                                CompanyStatus::Inactive->value  => 'Tidak Aktif',
+                            ])
+                            ->default(CompanyStatus::Active->value)
+                            ->required(),
 
-                DatePicker::make('registered_at')
-                    ->label('Tarikh Pendaftaran'),
+                        DatePicker::make('registered_at')
+                            ->label('Tarikh Pendaftaran'),
+                    ]),
             ]);
     }
 

@@ -1,5 +1,36 @@
 <x-layouts.public title="Carian Produk">
 
+<style>
+.tip-wrap { position: relative; display: inline-flex; }
+.tip-wrap .tip-box {
+    display: none;
+    position: absolute;
+    bottom: calc(100% + 8px);
+    right: 0;
+    width: 220px;
+    background: #1e293b;
+    color: #f1f5f9;
+    font-size: 12px;
+    line-height: 1.55;
+    padding: 10px 12px;
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.22);
+    z-index: 50;
+    pointer-events: none;
+}
+.tip-wrap .tip-box::after {
+    content: '';
+    position: absolute;
+    top: 100%; right: 12px;
+    border: 6px solid transparent;
+    border-top-color: #1e293b;
+}
+.tip-wrap:hover .tip-box { display: block; }
+.tip-icon { margin-left: 5px; opacity: 0.6; flex-shrink: 0; }
+.tip-row { display: flex; gap: 6px; margin-top: 7px; padding-top: 7px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 11px; color: #94a3b8; }
+.tip-row strong { color: #e2e8f0; }
+</style>
+
     {{-- Page header --}}
     <div style="background: linear-gradient(135deg, #006837 0%, #004d28 60%, #003d20 100%); padding: 32px 0;">
         <div style="max-width: 1280px; margin: 0 auto; padding: 0 16px;">
@@ -89,10 +120,15 @@
 
             <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; margin-bottom: 32px;">
                 @foreach($products as $product)
+                    @php $isPendingCard = $product->status->value === 'pending'; @endphp
+                    @if($isPendingCard)
+                    <div style="display: block; background: white; border: 1px solid #e5e7eb; border-radius: 12px; padding: 16px; text-decoration: none; transition: all 0.2s; cursor: default;">
+                    @else
                     <a href="{{ route('products.show', $product) }}"
                        style="display: block; background: white; border: 1px solid #e5e7eb; border-radius: 12px; padding: 16px; text-decoration: none; transition: all 0.2s;"
                        onmouseover="this.style.borderColor='#006837'; this.style.boxShadow='0 4px 16px rgba(0,104,55,0.1)';"
                        onmouseout="this.style.borderColor='#e5e7eb'; this.style.boxShadow='none';">
+                    @endif
                         <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 10px;">
                             <span style="font-family: 'SF Mono', 'Fira Code', monospace; font-size: 12px; font-weight: 600; color: #006837; background: #f0fdf4; padding: 2px 8px; border-radius: 6px; border: 1px solid #dcfce7;">
                                 {{ $product->registration_no }}
@@ -104,10 +140,30 @@
                                     'cancelled' => 'badge-danger',
                                     default     => 'badge-gray',
                                 };
+                                $isPending = $product->status->value === 'pending';
                             @endphp
-                            <span class="badge {{ $badgeClass }}">
-                                {{ $product->status->label() }}
-                            </span>
+                            @if($isPending)
+                                <span class="tip-wrap">
+                                    <span class="badge badge-gray" style="cursor:default;gap:0;">
+                                        {{ $product->status->label() }}
+                                        <svg class="tip-icon" width="12" height="12" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                                        </svg>
+                                    </span>
+                                    <div class="tip-box">
+                                        <div>Produk ini sedang dalam proses semakan oleh pegawai DOA. Nombor pendaftaran belum ditetapkan.</div>
+                                        @if($product->created_at)
+                                            <div class="tip-row">
+                                                Dikemukakan: <strong>{{ $product->created_at->format('d M Y') }}</strong>
+                                            </div>
+                                        @endif
+                                    </div>
+                                </span>
+                            @else
+                                <span class="badge {{ $badgeClass }}">
+                                    {{ $product->status->label() }}
+                                </span>
+                            @endif
                         </div>
                         <h3 style="font-size: 15px; font-weight: 600; color: #111827; letter-spacing: -0.01em; line-height: 1.4; margin: 0 0 10px;">
                             {{ $product->name }}
@@ -128,7 +184,7 @@
                                 </div>
                             @endif
                         </div>
-                    </a>
+                    @if($isPendingCard) </div> @else </a> @endif
                 @endforeach
             </div>
 

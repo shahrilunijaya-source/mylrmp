@@ -15,7 +15,7 @@ class ApplicationsByStageChart extends ChartWidget
         return 'Permohonan Mengikut Peringkat';
     }
 
-    protected int|string|array $columnSpan = 'full';
+    protected int|string|array $columnSpan = 1;
 
     protected function getType(): string
     {

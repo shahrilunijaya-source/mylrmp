@@ -14,6 +14,7 @@ use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
+use Filament\Support\Enums\FontFamily;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
@@ -116,35 +117,35 @@ class RegistrationApplicationResource extends Resource
                 TextColumn::make('application_no')
                     ->label('No. Permohonan')
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->fontFamily(FontFamily::Mono)
+                    ->badge()
+                    ->color('gray'),
 
                 TextColumn::make('product.name')
                     ->label('Produk')
-                    ->default('N/A'),
+                    ->description(fn (RegistrationApplication $record): string => $record->category?->name_ms ?? '')
+                    ->default('N/A')
+                    ->searchable()
+                    ->weight(\Filament\Support\Enums\FontWeight::Medium),
 
                 TextColumn::make('company.name')
                     ->label('Syarikat')
                     ->searchable()
-                    ->sortable(),
-
-                TextColumn::make('category.name_ms')
-                    ->label('Kategori'),
+                    ->sortable()
+                    ->color('gray'),
 
                 TextColumn::make('current_stage')
-                    ->label('Peringkat')
+                    ->label('Status')
                     ->badge()
                     ->color(fn (ApplicationStage $state): string => $state->color())
                     ->formatStateUsing(fn (ApplicationStage $state): string => $state->label()),
 
                 TextColumn::make('submitted_at')
                     ->label('Tarikh Dihantar')
-                    ->date('d/m/Y')
-                    ->sortable(),
-
-                TextColumn::make('assignedOfficer')
-                    ->label('Pegawai')
-                    ->default('Belum Ditetapkan')
-                    ->getStateUsing(fn (RegistrationApplication $record): string => optional($record->reviews()->latest()->first()?->reviewer)->name ?? 'Belum Ditetapkan'),
+                    ->date('d M Y')
+                    ->sortable()
+                    ->color('gray'),
             ])
             ->filters([
                 SelectFilter::make('current_stage')
@@ -158,7 +159,11 @@ class RegistrationApplicationResource extends Resource
                     ->options(ProductCategory::pluck('name_ms', 'id')),
             ])
             ->recordActions([
-                ViewAction::make(),
+                ViewAction::make()
+                    ->label('Semak →')
+                    ->button()
+                    ->color('success')
+                    ->size(\Filament\Support\Enums\ActionSize::Small),
 
                 // stage=submitted actions
                 Action::make('passIntake')

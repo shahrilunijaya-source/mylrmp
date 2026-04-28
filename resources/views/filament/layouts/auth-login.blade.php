@@ -231,7 +231,8 @@
         .demo-table th { padding: 8px 16px; font-size: 10px; font-weight: 700; color: #9aabbc; text-transform: uppercase; letter-spacing: .06em; background: #f9fafb; border-bottom: 1px solid var(--border); text-align: left; position: sticky; top: 0; }
         .demo-table td { padding: 10px 16px; border-bottom: 1px solid #f3f4f6; color: var(--navy); vertical-align: middle; }
         .demo-table tr:last-child td { border-bottom: none; }
-        .demo-table tr:hover td { background: var(--accent-bg); cursor: pointer; }
+        .demo-table tr.demo-row { cursor: pointer; }
+        .demo-table tr.demo-row:hover td { background: var(--accent-bg); }
         .demo-group td { background: #f9fafb; padding: 6px 16px; font-size: 10px; font-weight: 700; color: #9aabbc; text-transform: uppercase; letter-spacing: .06em; border-bottom: 1px solid var(--border); }
         .role-pill { display: inline-block; font-size: 10.5px; font-weight: 500; padding: 2px 8px; border-radius: 4px; white-space: nowrap; }
         .pill-admin   { background: #fef2f2; color: #b91c1c; }
@@ -341,31 +342,44 @@
                 <thead><tr><th>Peranan</th><th>E-mel</th><th>Kata Laluan</th></tr></thead>
                 <tbody>
                     <tr class="demo-group"><td colspan="3">Pentadbir</td></tr>
-                    <tr><td><span class="role-pill pill-admin">Super Admin</span></td><td style="font-size:12.5px">admin@doa.gov.my</td><td><span class="demo-pw">Password123!</span></td></tr>
+                    <tr class="demo-row" onclick="fillDemo('admin@doa.gov.my','Password123!')"><td><span class="role-pill pill-admin">Super Admin</span></td><td style="font-size:12.5px">admin@doa.gov.my</td><td><span class="demo-pw">Password123!</span></td></tr>
                     <tr class="demo-group"><td colspan="3">Pegawai DOA</td></tr>
-                    <tr><td><span class="role-pill pill-officer">Pendaftar</span></td><td style="font-size:12.5px">ahmad.fadzillah@doa.gov.my</td><td><span class="demo-pw">Password123!</span></td></tr>
-                    <tr><td><span class="role-pill pill-officer">Pendaftar</span></td><td style="font-size:12.5px">noraini.hassan@doa.gov.my</td><td><span class="demo-pw">Password123!</span></td></tr>
-                    <tr><td><span class="role-pill pill-officer">Penilai Teknikal</span></td><td style="font-size:12.5px">zulkifli.osman@doa.gov.my</td><td><span class="demo-pw">Password123!</span></td></tr>
-                    <tr><td><span class="role-pill pill-officer">Penilai Teknikal</span></td><td style="font-size:12.5px">azwani.aziz@doa.gov.my</td><td><span class="demo-pw">Password123!</span></td></tr>
-                    <tr><td><span class="role-pill pill-officer">Penilai Teknikal</span></td><td style="font-size:12.5px">hazrul.mahmud@doa.gov.my</td><td><span class="demo-pw">Password123!</span></td></tr>
-                    <tr><td><span class="role-pill pill-officer">Penilai Label</span></td><td style="font-size:12.5px">faridah.yusuf@doa.gov.my</td><td><span class="demo-pw">Password123!</span></td></tr>
-                    <tr><td><span class="role-pill pill-officer">Penilai Label</span></td><td style="font-size:12.5px">akmal.kamarudin@doa.gov.my</td><td><span class="demo-pw">Password123!</span></td></tr>
-                    <tr><td><span class="role-pill pill-officer">Peg. Pendaftaran</span></td><td style="font-size:12.5px">aisyah.ali@doa.gov.my</td><td><span class="demo-pw">Password123!</span></td></tr>
-                    <tr><td><span class="role-pill pill-officer">Peg. Pendaftaran</span></td><td style="font-size:12.5px">razif.ibrahim@doa.gov.my</td><td><span class="demo-pw">Password123!</span></td></tr>
-                    <tr><td><span class="role-pill pill-officer">Peg. Pendaftaran</span></td><td style="font-size:12.5px">wei.ching@doa.gov.my</td><td><span class="demo-pw">Password123!</span></td></tr>
+                    <tr class="demo-row" onclick="fillDemo('ahmad.fadzillah@doa.gov.my','Password123!')"><td><span class="role-pill pill-officer">Pendaftar</span></td><td style="font-size:12.5px">ahmad.fadzillah@doa.gov.my</td><td><span class="demo-pw">Password123!</span></td></tr>
+                    <tr class="demo-row" onclick="fillDemo('noraini.hassan@doa.gov.my','Password123!')"><td><span class="role-pill pill-officer">Pendaftar</span></td><td style="font-size:12.5px">noraini.hassan@doa.gov.my</td><td><span class="demo-pw">Password123!</span></td></tr>
+                    <tr class="demo-row" onclick="fillDemo('zulkifli.osman@doa.gov.my','Password123!')"><td><span class="role-pill pill-officer">Penilai Teknikal</span></td><td style="font-size:12.5px">zulkifli.osman@doa.gov.my</td><td><span class="demo-pw">Password123!</span></td></tr>
+                    <tr class="demo-row" onclick="fillDemo('azwani.aziz@doa.gov.my','Password123!')"><td><span class="role-pill pill-officer">Penilai Teknikal</span></td><td style="font-size:12.5px">azwani.aziz@doa.gov.my</td><td><span class="demo-pw">Password123!</span></td></tr>
+                    <tr class="demo-row" onclick="fillDemo('hazrul.mahmud@doa.gov.my','Password123!')"><td><span class="role-pill pill-officer">Penilai Teknikal</span></td><td style="font-size:12.5px">hazrul.mahmud@doa.gov.my</td><td><span class="demo-pw">Password123!</span></td></tr>
+                    <tr class="demo-row" onclick="fillDemo('faridah.yusuf@doa.gov.my','Password123!')"><td><span class="role-pill pill-officer">Penilai Label</span></td><td style="font-size:12.5px">faridah.yusuf@doa.gov.my</td><td><span class="demo-pw">Password123!</span></td></tr>
+                    <tr class="demo-row" onclick="fillDemo('akmal.kamarudin@doa.gov.my','Password123!')"><td><span class="role-pill pill-officer">Penilai Label</span></td><td style="font-size:12.5px">akmal.kamarudin@doa.gov.my</td><td><span class="demo-pw">Password123!</span></td></tr>
+                    <tr class="demo-row" onclick="fillDemo('aisyah.ali@doa.gov.my','Password123!')"><td><span class="role-pill pill-officer">Peg. Pendaftaran</span></td><td style="font-size:12.5px">aisyah.ali@doa.gov.my</td><td><span class="demo-pw">Password123!</span></td></tr>
+                    <tr class="demo-row" onclick="fillDemo('razif.ibrahim@doa.gov.my','Password123!')"><td><span class="role-pill pill-officer">Peg. Pendaftaran</span></td><td style="font-size:12.5px">razif.ibrahim@doa.gov.my</td><td><span class="demo-pw">Password123!</span></td></tr>
+                    <tr class="demo-row" onclick="fillDemo('wei.ching@doa.gov.my','Password123!')"><td><span class="role-pill pill-officer">Peg. Pendaftaran</span></td><td style="font-size:12.5px">wei.ching@doa.gov.my</td><td><span class="demo-pw">Password123!</span></td></tr>
                 </tbody>
             </table>
         </div>
-        <div class="modal-foot">Semua akaun menggunakan kata laluan yang sama &nbsp;·&nbsp; Persekitaran ujian sahaja</div>
+        <div class="modal-foot">Klik baris untuk isi e-mel &amp; kata laluan secara automatik &nbsp;·&nbsp; Persekitaran ujian sahaja</div>
     </div>
 </div>
+
+{{-- Hidden form for demo quick-login — bypasses Livewire entirely --}}
+<form id="demo-login-form" action="{{ route('demo.login') }}" method="POST" style="display:none">
+    @csrf
+    <input type="hidden" name="email"    id="demo-fill-email">
+    <input type="hidden" name="password" id="demo-fill-password">
+</form>
 
 @livewireScripts
 @filamentScripts
 <script>
 function openDemo()  { document.getElementById('demoBackdrop').classList.add('open');    document.body.style.overflow='hidden'; }
 function closeDemo() { document.getElementById('demoBackdrop').classList.remove('open'); document.body.style.overflow=''; }
-document.addEventListener('keydown', e => { if(e.key==='Escape') closeDemo(); });
+document.addEventListener('keydown', function(e) { if(e.key==='Escape') closeDemo(); });
+
+function fillDemo(email, password) {
+    document.getElementById('demo-fill-email').value    = email;
+    document.getElementById('demo-fill-password').value = password;
+    document.getElementById('demo-login-form').submit();
+}
 </script>
 </body>
 </html>

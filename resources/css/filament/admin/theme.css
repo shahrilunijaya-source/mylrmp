@@ -473,6 +473,19 @@
     background-color: #cdd8e5 !important;
 }
 
+/* App-number chip: monospace, no dot, tighter */
+.fi-col-application_no .fi-badge {
+    font-family: 'SF Mono', 'Cascadia Code', ui-monospace, 'Courier New', monospace !important;
+    font-size: 11px !important;
+    letter-spacing: 0.03em !important;
+    padding: 2px 8px !important;
+    border-radius: 5px !important;
+}
+
+.fi-col-application_no .fi-badge::before {
+    display: none !important;
+}
+
 /* Primary / brand green */
 .fi-badge.fi-color-primary {
     background-color: #f0fdf4 !important;

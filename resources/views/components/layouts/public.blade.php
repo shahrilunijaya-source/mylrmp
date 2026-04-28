@@ -2,130 +2,198 @@
 <html lang="ms">
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="/favicon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ $title ?? 'myLRMP' }} | Jabatan Pertanian Malaysia</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
-    <script>
-    tailwind.config = {
-        theme: {
-            extend: {
-                colors: {
-                    doa: { 50:'#f0fdf4', 100:'#dcfce7', 500:'#006837', 600:'#005a2f', 700:'#004d28', 800:'#003d20', 900:'#002d18' },
-                    gold: { 400:'#FFCC00', 500:'#f5c200' }
-                }
-            }
-        }
-    }
-    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="//unpkg.com/alpinejs" defer></script>
     <style>
+        :root {
+            --navy:      #061B31;
+            --slate:     #64748D;
+            --border:    #E5EDF5;
+            --off-white: #F8FAFC;
+            --brand:     #006837;
+            --brand-dark:#004d28;
+            --gold:      #FFCC00;
+        }
         * { box-sizing: border-box; }
-        body { font-family: 'Inter', -apple-system, system-ui, sans-serif; font-feature-settings: 'cv01', 'ss03'; -webkit-font-smoothing: antialiased; }
-        .nav-link { font-size: 14px; font-weight: 500; letter-spacing: -0.01em; color: #4b5563; transition: color 0.15s; }
-        .nav-link:hover { color: #111827; }
-        .nav-link.active { color: #006837; }
-        .hero-gradient { background: linear-gradient(135deg, #006837 0%, #004d28 60%, #003d20 100%); }
-        .stat-card { background: rgba(255,255,255,0.1); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.2); border-radius: 12px; padding: 20px 24px; }
-        .feature-card { background: #ffffff; border: 1px solid #e5e7eb; border-radius: 12px; transition: all 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
-        .feature-card:hover { border-color: #006837; box-shadow: 0 4px 16px rgba(0,104,55,0.1); transform: translateY(-2px); }
-        .btn-primary { background: #006837; color: white; border-radius: 8px; padding: 10px 20px; font-size: 14px; font-weight: 500; letter-spacing: -0.01em; transition: background 0.15s; border: none; cursor: pointer; }
-        .btn-primary:hover { background: #005a2f; }
-        .btn-secondary { background: transparent; color: #374151; border: 1px solid #d1d5db; border-radius: 8px; padding: 10px 20px; font-size: 14px; font-weight: 500; transition: all 0.15s; }
-        .btn-secondary:hover { border-color: #9ca3af; background: #f9fafb; }
-        .badge { display: inline-flex; align-items: center; padding: 2px 10px; border-radius: 9999px; font-size: 12px; font-weight: 500; }
-        .badge-success { background: #dcfce7; color: #15803d; }
-        .badge-warning { background: #fef9c3; color: #a16207; }
-        .badge-danger { background: #fee2e2; color: #b91c1c; }
-        .badge-info { background: #dbeafe; color: #1d4ed8; }
-        .badge-gray { background: #f3f4f6; color: #6b7280; }
-        .section-heading { font-size: 32px; font-weight: 700; letter-spacing: -0.03em; color: #111827; }
-        .section-subheading { font-size: 18px; font-weight: 400; color: #6b7280; margin-top: 8px; }
-        input, select, textarea { font-family: 'Inter', sans-serif; font-feature-settings: 'cv01', 'ss03'; }
-        .search-input { background: white; border: 1px solid #d1d5db; border-radius: 10px; padding: 12px 16px; font-size: 15px; font-weight: 400; color: #111827; width: 100%; transition: border-color 0.15s, box-shadow 0.15s; }
-        .search-input:focus { outline: none; border-color: #006837; box-shadow: 0 0 0 3px rgba(0,104,55,0.1); }
-        .lang-pill { display: inline-flex; align-items: center; padding: 2px 10px; border-radius: 9999px; font-size: 12px; font-weight: 500; transition: all 0.15s; text-decoration: none; }
-        .lang-pill.active { background: #f3f4f6; color: #111827; }
-        .lang-pill.inactive { color: #6b7280; }
-        .lang-pill.inactive:hover { color: #374151; }
+        body { font-family: 'Poppins', sans-serif; -webkit-font-smoothing: antialiased; background: var(--off-white); color: var(--navy); zoom: 1.07; }
+
+        /* Nav */
+        .nav-link { font-size: 14px; font-weight: 400; color: var(--navy); transition: color 0.15s; text-decoration: none; }
+        .nav-link:hover { color: var(--brand); }
+        .nav-link.active { color: var(--brand); font-weight: 500; }
+        .nav-link.is-disabled {
+            opacity: 0.40; cursor: not-allowed; pointer-events: auto;
+            position: relative; display: inline-block;
+        }
+        .nav-link.is-disabled:hover { color: var(--navy); opacity: 0.55; }
+        .nav-link.is-disabled[data-tip]::after {
+            content: attr(data-tip);
+            position: absolute;
+            left: 50%; top: calc(100% + 10px);
+            transform: translateX(-50%);
+            background: #0F172A; color: #fff;
+            font-size: 11px; font-weight: 500;
+            padding: 5px 10px; border-radius: 6px;
+            white-space: nowrap;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+            opacity: 0; pointer-events: none;
+            transition: opacity 150ms ease;
+            z-index: 100;
+        }
+        .nav-link.is-disabled[data-tip]:hover::after { opacity: 1; }
+
+        /* Buttons */
+        .btn-primary { background: var(--brand); color: #fff; border-radius: 4px; padding: 11px 22px; font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 500; transition: background 150ms ease, transform 150ms ease; border: none; cursor: pointer; text-decoration: none; display: inline-block; }
+        .btn-primary:hover { background: var(--brand-dark); transform: translateY(-1px); }
+        .btn-primary:active { transform: translateY(0); }
+        .btn-secondary { background: transparent; color: var(--navy); border: 1px solid var(--border); border-radius: 4px; padding: 11px 22px; font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 400; transition: border-color 150ms ease, color 150ms ease, transform 150ms ease; text-decoration: none; display: inline-block; cursor: pointer; }
+        .btn-secondary:hover { border-color: #c0ccd8; color: var(--brand); transform: translateY(-1px); }
+
+        /* Portal access floating widget — fixed below sticky nav, right-aligned */
+        .portal-float {
+            position: fixed;
+            top: 64px; /* height of sticky nav */
+            right: 0;
+            display: flex; flex-direction: column; gap: 0;
+            z-index: 400;
+            overflow: hidden;
+            border-radius: 0 0 0 10px;
+            box-shadow: rgba(0,0,0,0.18) 0px 8px 24px -4px;
+        }
+        .portal-float-btn {
+            display: flex; align-items: center; gap: 9px;
+            padding: 11px 18px;
+            font-family: 'Poppins', sans-serif; font-size: 12.5px; font-weight: 500;
+            text-decoration: none; cursor: pointer; border: none;
+            transition: filter 120ms ease;
+            white-space: nowrap;
+        }
+        .portal-float-btn:hover { filter: brightness(1.12); }
+        .portal-float-btn.pegawai { background: var(--navy); color: #fff; border-bottom: 1px solid rgba(255,255,255,0.10); }
+        .portal-float-btn.industri { background: var(--brand); color: #fff; }
+        .portal-float-icon {
+            width: 20px; height: 20px; border-radius: 5px;
+            display: flex; align-items: center; justify-content: center;
+            background: rgba(255,255,255,0.15); flex-shrink: 0;
+        }
+
+        /* Cards */
+        .feature-card { background: #fff; border: 1px solid var(--border); border-radius: 8px; transition: transform 200ms ease-out, box-shadow 200ms ease-out; }
+        .feature-card:hover { transform: translateY(-3px); box-shadow: rgba(50,50,93,0.25) 0px 13px 27px -5px, rgba(0,0,0,0.10) 0px 8px 16px -8px; }
+        .stat-card { background: rgba(255,255,255,0.12); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.25); border-radius: 8px; padding: 20px 24px; }
+
+        /* Hero section */
+        .hero-section { position: relative; overflow: hidden; background: linear-gradient(135deg, #006837 0%, #004d28 60%, #003d20 100%); }
+        .hero-section::before {
+            content: '';
+            position: absolute; inset: 0;
+            background-image: radial-gradient(rgba(255,255,255,0.07) 1px, transparent 1px);
+            background-size: 28px 28px;
+            pointer-events: none; z-index: 0;
+        }
+        .hero-content { position: relative; z-index: 1; }
+        .hero-orb { position: absolute; border-radius: 50%; filter: blur(80px); pointer-events: none; z-index: 0; }
+        .hero-orb-1 { width: 480px; height: 480px; background: #00c060; opacity: 0.13; top: -140px; left: -120px; animation: orb-drift 14s ease-in-out infinite; }
+        .hero-orb-2 { width: 360px; height: 360px; background: #FFCC00; opacity: 0.07; bottom: -80px; right: 8%; animation: orb-drift 11s ease-in-out infinite reverse; }
+        .hero-orb-3 { width: 240px; height: 240px; background: #86efac; opacity: 0.10; top: 25%; right: -60px; animation: orb-drift 16s ease-in-out infinite 3s; }
+        @keyframes orb-drift {
+            0%,  100% { transform: translate(0px,   0px)  scale(1);    }
+            33%        { transform: translate(30px, -25px) scale(1.06); }
+            66%        { transform: translate(-20px, 18px) scale(0.94); }
+        }
+
+        /* Pautan Berguna links */
+        .pautan-link { display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: white; border: 1px solid var(--border); border-radius: 10px; font-size: 13px; font-weight: 500; color: #374151; text-decoration: none; transition: border-color 200ms ease, color 200ms ease, transform 200ms ease, box-shadow 200ms ease; }
+        .pautan-link:hover { border-color: var(--brand); color: var(--brand); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,104,55,0.12); }
+        .pautan-link img { width: 20px; height: 20px; border-radius: 4px; object-fit: contain; flex-shrink: 0; }
+        .pautan-link .ext-icon { width: 12px; height: 12px; flex-shrink: 0; margin-left: auto; opacity: 0.4; transition: opacity 200ms ease; }
+        .pautan-link:hover .ext-icon { opacity: 0.8; }
+
+        /* Typography */
+        .eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--brand); }
+        .section-heading { font-size: 32px; font-weight: 700; color: var(--navy); letter-spacing: -0.3px; }
+        .section-subheading { font-size: 17px; font-weight: 400; color: var(--slate); margin-top: 10px; }
+
+        /* Status badges */
+        .badge { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 4px; font-size: 12px; font-weight: 500; }
+        .badge-success { background: #f0fdf4; color: #15803d; }
+        .badge-warning { background: #fffbeb; color: #a16207; }
+        .badge-danger  { background: #fef2f2; color: #b91c1c; }
+        .badge-info    { background: #eff6ff; color: #1d4ed8; }
+        .badge-gray    { background: var(--off-white); color: var(--slate); border: 1px solid var(--border); }
+
+        /* Search */
+        .search-input { background: #fff; border: 1px solid var(--border); border-radius: 6px; padding: 13px 18px; font-family: 'Poppins', sans-serif; font-size: 15px; font-weight: 400; color: var(--navy); width: 100%; transition: border-color 150ms ease, box-shadow 150ms ease; }
+        .search-input:focus { outline: none; border-color: var(--brand); box-shadow: 0 0 0 3px rgba(0,104,55,0.12); }
+        .search-input::placeholder { color: #9aabbc; }
+
+        /* Lang toggle */
+        .lang-toggle { display: inline-flex; align-items: center; background: #fff; border: 1px solid var(--border); border-radius: 6px; padding: 2px; gap: 0; }
+        .lang-btn { background: transparent; border: none; cursor: pointer; padding: 5px 10px; font-family: 'Poppins', sans-serif; font-size: 12px; font-weight: 500; color: var(--slate); border-radius: 4px; transition: background 150ms ease, color 150ms ease; }
+        .lang-btn:hover { color: var(--navy); }
+        .lang-btn.active { background: var(--navy); color: #fff; }
+
+        /* Stripe shadow */
+        .stripe-shadow    { box-shadow: rgba(50,50,93,0.25) 0px 13px 27px -5px, rgba(0,0,0,0.10) 0px 8px 16px -8px; }
+        .stripe-shadow-sm { box-shadow: rgba(50,50,93,0.15) 0px 8px 18px -6px, rgba(0,0,0,0.06) 0px 4px 10px -4px; }
+
+        input, select, textarea { font-family: 'Poppins', sans-serif; }
     </style>
     @livewireStyles
 </head>
-<body style="background: #f9fafb;">
+<body>
 
-{{-- Top gov strip --}}
+{{-- Gov strip --}}
 <div style="height: 3px; background: #006837; width: 100%;"></div>
-<div style="background: white; border-bottom: 1px solid #e5e7eb;">
-    <div style="max-width: 1280px; margin: 0 auto; padding: 8px 16px; display: flex; align-items: center; justify-content: space-between;">
-        {{-- Gov logo + name --}}
-        <div style="display: flex; align-items: center; gap: 12px;">
-            <div style="width: 36px; height: 36px; border-radius: 50%; background: #006837; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                <span style="color: white; font-weight: 800; font-size: 10px; letter-spacing: 0.05em;">JPM</span>
-            </div>
-            <div style="line-height: 1.3;">
-                <p style="font-weight: 600; color: #004d28; font-size: 13px; letter-spacing: 0.03em; text-transform: uppercase; margin: 0;">Jabatan Pertanian Malaysia</p>
-                <p style="font-size: 11px; color: #6b7280; margin: 0;">Kementerian Pertanian &amp; Keterjaminan Makanan</p>
+
+{{-- Gov bar --}}
+<div style="background: #fff; border-bottom: 1px solid var(--border);">
+    <div style="max-width: 1280px; margin: 0 auto; padding: 7px 24px; display: flex; align-items: center; justify-content: space-between;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <img src="/images/jata-malaysia.png" alt="Jata Malaysia" style="height: 40px; width: auto; flex-shrink: 0; border-radius: 3px;">
+            <div>
+                <p style="font-weight: 600; color: #004d28; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; margin: 0;">Jabatan Pertanian Malaysia</p>
+                <p style="font-size: 10.5px; color: var(--slate); margin: 0; font-weight: 400;">Kementerian Pertanian &amp; Keterjaminan Makanan</p>
             </div>
         </div>
-        {{-- Language toggle --}}
-        <div style="display: flex; align-items: center; gap: 4px;">
-            <a href="#" class="lang-pill active">BM</a>
-            <a href="#" class="lang-pill inactive">EN</a>
+        <div class="lang-toggle">
+            <button type="button" class="lang-btn active">BM</button>
+            <button type="button" class="lang-btn">EN</button>
         </div>
     </div>
 </div>
 
 {{-- Main navigation --}}
-<nav style="background: white; border-bottom: 1px solid #e5e7eb; box-shadow: 0 1px 3px rgba(0,0,0,0.06);" x-data="{ open: false }">
-    <div style="max-width: 1280px; margin: 0 auto; padding: 0 16px;">
-        <div style="display: flex; align-items: center; justify-content: space-between; height: 56px;">
+<nav style="position: sticky; top: 0; z-index: 50; background: rgba(255,255,255,0.92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--border);" x-data="{ open: false }">
+    <div style="max-width: 1280px; margin: 0 auto; padding: 0 24px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; height: 64px;">
             {{-- Brand --}}
-            <a href="{{ route('home') }}" style="display: flex; align-items: center; gap: 8px; text-decoration: none;">
-                <div style="width: 32px; height: 32px; background: #006837; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                    <span style="color: #FFCC00; font-weight: 800; font-size: 11px;">ML</span>
-                </div>
-                <span style="font-weight: 600; font-size: 18px; letter-spacing: -0.02em; color: #111827;">myLRMP</span>
+            <a href="{{ route('home') }}" style="display: flex; align-items: center; gap: 9px; text-decoration: none; flex-shrink: 0;">
+                <img src="/images/mylrmp-logo.png" alt="myLRMP" style="height: 36px; width: auto; flex-shrink: 0;">
             </a>
 
             {{-- Desktop nav links --}}
-            <div class="hidden md:flex" style="align-items: center; gap: 4px;">
-                <a href="{{ route('home') }}"
-                   style="padding: 6px 12px; border-radius: 6px; text-decoration: none; font-size: 14px; font-weight: 500; transition: all 0.15s; {{ request()->routeIs('home') ? 'color: #006837; background: #f0fdf4;' : 'color: #4b5563;' }}"
-                   onmouseover="if(!this.style.background.includes('f0fdf4')) { this.style.background='#f9fafb'; this.style.color='#111827'; }"
-                   onmouseout="if(!this.style.background.includes('f0fdf4')) { this.style.background=''; this.style.color='#4b5563'; }">
-                    Laman Utama
-                </a>
-                <a href="{{ route('products.search') }}"
-                   style="padding: 6px 12px; border-radius: 6px; text-decoration: none; font-size: 14px; font-weight: 500; transition: all 0.15s; {{ request()->routeIs('products.*') ? 'color: #006837; background: #f0fdf4;' : 'color: #4b5563;' }}"
-                   onmouseover="if(!this.style.background.includes('f0fdf4')) { this.style.background='#f9fafb'; this.style.color='#111827'; }"
-                   onmouseout="if(!this.style.background.includes('f0fdf4')) { this.style.background=''; this.style.color='#4b5563'; }">
-                    Carian Produk
-                </a>
-                <a href="{{ route('calculator') }}"
-                   style="padding: 6px 12px; border-radius: 6px; text-decoration: none; font-size: 14px; font-weight: 500; transition: all 0.15s; {{ request()->routeIs('calculator') ? 'color: #006837; background: #f0fdf4;' : 'color: #4b5563;' }}"
-                   onmouseover="if(!this.style.background.includes('f0fdf4')) { this.style.background='#f9fafb'; this.style.color='#111827'; }"
-                   onmouseout="if(!this.style.background.includes('f0fdf4')) { this.style.background=''; this.style.color='#4b5563'; }">
-                    Kalkulator
-                </a>
-                <a href="#hubungi"
-                   style="padding: 6px 12px; border-radius: 6px; text-decoration: none; font-size: 14px; font-weight: 500; color: #4b5563; transition: all 0.15s;"
-                   onmouseover="this.style.background='#f9fafb'; this.style.color='#111827';"
-                   onmouseout="this.style.background=''; this.style.color='#4b5563';">
-                    Hubungi Kami
-                </a>
-                <a href="{{ route('industri.login') }}"
-                   style="margin-left: 8px; padding: 7px 16px; border-radius: 8px; background: #006837; color: white; font-size: 14px; font-weight: 500; text-decoration: none; transition: background 0.15s; letter-spacing: -0.01em;"
-                   onmouseover="this.style.background='#005a2f';"
-                   onmouseout="this.style.background='#006837';">
-                    Log Masuk
-                </a>
+            <div class="hidden md:flex" style="align-items: center; gap: 28px;">
+                <a href="{{ route('home') }}" class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}">Laman Utama</a>
+                <a href="{{ route('products.search') }}" class="nav-link {{ request()->routeIs('products.*') ? 'active' : '' }}">Carian Produk</a>
+                <a href="{{ route('calculator') }}" class="nav-link {{ request()->routeIs('calculator') ? 'active' : '' }}">Kalkulator</a>
+                <span class="nav-link is-disabled" aria-disabled="true" tabindex="-1" data-tip="Modul ini belum tersedia dalam prototaip ini">Direktori BKRPB</span>
+                <span class="nav-link is-disabled" aria-disabled="true" tabindex="-1" data-tip="Modul ini belum tersedia dalam prototaip ini">Harga Pasaran</span>
+                <span class="nav-link is-disabled" aria-disabled="true" tabindex="-1" data-tip="Modul ini belum tersedia dalam prototaip ini">Aduan</span>
+                <span class="nav-link is-disabled" aria-disabled="true" tabindex="-1" data-tip="Modul ini belum tersedia dalam prototaip ini">Bayaran Dalam Talian</span>
+                <a href="#hubungi" class="nav-link">Hubungi Kami</a>
             </div>
 
+
             {{-- Mobile hamburger --}}
-            <button @click="open = !open" style="color: #374151; padding: 8px; border-radius: 6px; background: none; border: none; cursor: pointer;" class="md:hidden">
+            <button @click="open = !open" style="color: var(--navy); padding: 8px; border-radius: 4px; background: none; border: none; cursor: pointer;" class="md:hidden">
                 <svg style="width: 22px; height: 22px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path x-show="!open" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
                     <path x-show="open" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
@@ -134,12 +202,11 @@
         </div>
 
         {{-- Mobile menu --}}
-        <div x-show="open" x-cloak style="padding-bottom: 12px;">
-            <a href="{{ route('home') }}" style="display: block; padding: 8px 12px; border-radius: 6px; font-size: 14px; font-weight: 500; color: #374151; text-decoration: none; margin-bottom: 2px;">Laman Utama</a>
-            <a href="{{ route('products.search') }}" style="display: block; padding: 8px 12px; border-radius: 6px; font-size: 14px; font-weight: 500; color: #374151; text-decoration: none; margin-bottom: 2px;">Carian Produk</a>
-            <a href="{{ route('calculator') }}" style="display: block; padding: 8px 12px; border-radius: 6px; font-size: 14px; font-weight: 500; color: #374151; text-decoration: none; margin-bottom: 2px;">Kalkulator</a>
-            <a href="#hubungi" style="display: block; padding: 8px 12px; border-radius: 6px; font-size: 14px; font-weight: 500; color: #374151; text-decoration: none; margin-bottom: 2px;">Hubungi Kami</a>
-            <a href="{{ route('industri.login') }}" style="display: block; padding: 8px 12px; border-radius: 6px; font-size: 14px; font-weight: 500; color: #374151; text-decoration: none;">Log Masuk</a>
+        <div x-show="open" x-cloak style="padding-bottom: 16px; border-top: 1px solid var(--border);">
+            <a href="{{ route('home') }}" style="display: block; padding: 10px 4px; font-size: 14px; font-weight: 400; color: var(--navy); text-decoration: none; border-bottom: 1px solid var(--border);">Laman Utama</a>
+            <a href="{{ route('products.search') }}" style="display: block; padding: 10px 4px; font-size: 14px; font-weight: 400; color: var(--navy); text-decoration: none; border-bottom: 1px solid var(--border);">Carian Produk</a>
+            <a href="{{ route('calculator') }}" style="display: block; padding: 10px 4px; font-size: 14px; font-weight: 400; color: var(--navy); text-decoration: none; border-bottom: 1px solid var(--border);">Kalkulator</a>
+            <a href="#hubungi" style="display: block; padding: 10px 4px; font-size: 14px; font-weight: 400; color: var(--navy); text-decoration: none; border-bottom: 1px solid var(--border);">Hubungi Kami</a>
         </div>
     </div>
 </nav>
@@ -191,6 +258,26 @@
         </div>
     </div>
 </footer>
+
+{{-- ═══ FLOATING PORTAL ACCESS ═══ --}}
+<div class="portal-float">
+    <a href="{{ route('officer.login') }}" class="portal-float-btn pegawai">
+        <span class="portal-float-icon">
+            <svg width="12" height="12" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
+            </svg>
+        </span>
+        Portal Pegawai
+    </a>
+    <a href="{{ route('industri.login') }}" class="portal-float-btn industri">
+        <span class="portal-float-icon">
+            <svg width="12" height="12" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a1 1 0 110 2H4a1 1 0 110-2V4zm3 1h2v2H7V5zm2 4H7v2h2V9zm2-4h2v2h-2V5zm2 4h-2v2h2V9z" clip-rule="evenodd"/>
+            </svg>
+        </span>
+        Log Masuk Industri
+    </a>
+</div>
 
 @livewireScripts
 </body>

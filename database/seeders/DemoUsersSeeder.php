@@ -35,6 +35,9 @@ class DemoUsersSeeder extends Seeder
             ['name' => 'Siti Aisyah binti Mohd Ali',     'email' => 'aisyah.ali@doa.gov.my',      'role' => 'Pegawai Pendaftaran'],
             ['name' => 'Razif bin Ibrahim',               'email' => 'razif.ibrahim@doa.gov.my',   'role' => 'Pegawai Pendaftaran'],
             ['name' => 'Lim Wei Ching',                   'email' => 'wei.ching@doa.gov.my',       'role' => 'Pegawai Pendaftaran'],
+            // Pegawai Pemeriksaan
+            ['name' => 'Hashim bin Othman',               'email' => 'hashim.othman@doa.gov.my',   'role' => 'Pegawai Pemeriksaan'],
+            ['name' => 'Nurul Huda binti Zainudin',       'email' => 'nurul.huda@doa.gov.my',      'role' => 'Pegawai Pemeriksaan'],
         ];
 
         foreach ($officers as $officer) {

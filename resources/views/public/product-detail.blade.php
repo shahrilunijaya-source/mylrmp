@@ -1,7 +1,7 @@
 <x-layouts.public :title="$product->name">
 
     {{-- Page header --}}
-    <div class="bg-doa-700 text-white py-8">
+    <div style="background: #004d28;" class="text-white py-8">
         <div class="max-w-7xl mx-auto px-4">
             <nav class="text-xs text-green-300 mb-2">
                 <a href="{{ route('home') }}" class="hover:text-white">Laman Utama</a>
@@ -12,7 +12,7 @@
             </nav>
             <div class="flex flex-wrap items-start gap-4">
                 <div class="flex-1 min-w-0">
-                    <p class="text-gold-400 text-sm font-mono font-semibold mb-1">{{ $product->registration_no }}</p>
+                    <p style="color: #FFCC00;" class="text-sm font-mono font-semibold mb-1">{{ $product->registration_no }}</p>
                     <h1 class="text-2xl md:text-3xl font-bold leading-tight">{{ $product->name }}</h1>
                 </div>
                 @php
@@ -35,11 +35,11 @@
 
             {{-- Left: Butiran Produk --}}
             <div class="bg-white border border-gray-200 rounded-xl p-6">
-                <h2 class="text-base font-bold text-doa-700 mb-5 pb-3 border-b border-gray-100">Butiran Produk</h2>
+                <h2 class="text-base font-bold mb-5 pb-3 border-b border-gray-100" style="color: #004d28;">Butiran Produk</h2>
                 <dl class="space-y-4">
                     <div class="flex flex-col sm:flex-row sm:gap-4">
                         <dt class="text-xs font-semibold text-gray-400 uppercase tracking-wide w-40 flex-shrink-0 mb-0.5 sm:mb-0 pt-0.5">No. Pendaftaran</dt>
-                        <dd class="text-sm font-mono font-semibold text-doa-700">{{ $product->registration_no }}</dd>
+                        <dd class="text-sm font-mono font-semibold" style="color: #004d28;">{{ $product->registration_no }}</dd>
                     </div>
                     <div class="flex flex-col sm:flex-row sm:gap-4">
                         <dt class="text-xs font-semibold text-gray-400 uppercase tracking-wide w-40 flex-shrink-0 mb-0.5 sm:mb-0 pt-0.5">Nama Produk</dt>
@@ -76,7 +76,7 @@
 
             {{-- Right: Perawis Aktif (Active Ingredients) --}}
             <div class="bg-white border border-gray-200 rounded-xl p-6">
-                <h2 class="text-base font-bold text-doa-700 mb-5 pb-3 border-b border-gray-100">Perawis Aktif (Bahan Aktif)</h2>
+                <h2 class="text-base font-bold mb-5 pb-3 border-b border-gray-100" style="color: #004d28;">Perawis Aktif (Bahan Aktif)</h2>
                 @if($product->activeIngredients->isEmpty())
                     <p class="text-sm text-gray-400 italic">Tiada bahan aktif direkodkan.</p>
                 @else
@@ -109,11 +109,11 @@
         {{-- Certificate section --}}
         @if($product->certificate)
             <div class="mt-6 bg-white border border-gray-200 rounded-xl p-6">
-                <h2 class="text-base font-bold text-doa-700 mb-5 pb-3 border-b border-gray-100">Sijil Pendaftaran</h2>
+                <h2 class="text-base font-bold mb-5 pb-3 border-b border-gray-100" style="color: #004d28;">Sijil Pendaftaran</h2>
                 <div class="flex flex-wrap items-center gap-6">
                     <div>
                         <p class="text-xs text-gray-400 uppercase tracking-wide font-semibold mb-1">No. Sijil</p>
-                        <p class="text-sm font-mono font-bold text-doa-700">{{ $product->certificate->certificate_no ?? '—' }}</p>
+                        <p class="text-sm font-mono font-bold" style="color: #004d28;">{{ $product->certificate->certificate_no ?? '—' }}</p>
                     </div>
                     @if($product->certificate->issued_at)
                         <div>
@@ -132,20 +132,24 @@
         @endif
 
         {{-- CTA --}}
-        <div class="mt-8 bg-doa-50 border border-doa-100 rounded-xl p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div class="mt-8 rounded-xl p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
+             style="background: #f0fdf4; border: 1px solid #bbf7d0;">
             <div>
-                <h3 class="font-semibold text-doa-800 mb-1">Ada pertanyaan mengenai produk ini?</h3>
-                <p class="text-sm text-doa-600">Hubungi Bahagian Kawalan Racun Makhluk Perosak (BKRPB) untuk maklumat lanjut.</p>
+                <h3 class="font-semibold mb-1" style="color: #004d28;">Ada pertanyaan mengenai produk ini?</h3>
+                <p class="text-sm text-gray-600">Hubungi Bahagian Kawalan Racun Makhluk Perosak (BKRPB) untuk maklumat lanjut.</p>
             </div>
             <a href="#hubungi"
-               class="flex-shrink-0 px-6 py-2.5 bg-doa-600 text-white text-sm font-semibold rounded-lg hover:bg-doa-700 transition-colors">
+               class="flex-shrink-0 px-6 py-2.5 text-white text-sm font-semibold rounded-lg transition-colors"
+               style="background: #006837;"
+               onmouseover="this.style.background='#004d28'"
+               onmouseout="this.style.background='#006837'">
                 Hubungi BKRPB
             </a>
         </div>
 
         {{-- Back link --}}
         <div class="mt-6">
-            <a href="{{ route('products.search') }}" class="text-sm text-doa-600 hover:underline">&larr; Kembali ke Carian Produk</a>
+            <a href="{{ route('products.search') }}" class="text-sm hover:underline" style="color: #006837;">&larr; Kembali ke Carian Produk</a>
         </div>
     </div>
 

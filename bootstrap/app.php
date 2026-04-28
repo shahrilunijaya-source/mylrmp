@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\EnsureOfficerRole;
 use App\Http\Middleware\SetLocale;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -14,6 +15,9 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         // Redirect unauthenticated requests based on URL prefix
         $middleware->redirectGuestsTo(function (\Illuminate\Http\Request $request) {
+            if ($request->is('pegawai*')) {
+                return route('officer.login');
+            }
             if ($request->is('industri*')) {
                 return route('industri.login');
             }
@@ -21,6 +25,10 @@ return Application::configure(basePath: dirname(__DIR__))
         });
 
         $middleware->web(append: [SetLocale::class]);
+
+        $middleware->alias([
+            'officer.role' => EnsureOfficerRole::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

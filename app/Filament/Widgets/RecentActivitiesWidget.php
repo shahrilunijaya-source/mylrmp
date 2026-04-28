@@ -2,10 +2,12 @@
 
 namespace App\Filament\Widgets;
 
+use App\Enums\ApplicationStage;
+use App\Models\RegistrationApplication;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget;
-use Spatie\Activitylog\Models\Activity;
+use Carbon\Carbon;
 
 class RecentActivitiesWidget extends TableWidget
 {
@@ -16,25 +18,54 @@ class RecentActivitiesWidget extends TableWidget
     public function table(Table $table): Table
     {
         return $table
-            ->heading('Aktiviti Terkini')
+            ->heading('Permohonan Terkini')
+            ->description('10 permohonan terbaru yang diserahkan')
             ->query(
-                Activity::query()
-                    ->latest()
+                RegistrationApplication::query()
+                    ->with(['company', 'product'])
+                    ->whereNotNull('submitted_at')
+                    ->latest('submitted_at')
                     ->limit(10)
             )
             ->columns([
-                TextColumn::make('causer.name')
-                    ->label('Pengguna')
-                    ->default('Sistem'),
+                TextColumn::make('application_no')
+                    ->label('No. Permohonan')
+                    ->searchable()
+                    ->weight('semibold')
+                    ->color('primary')
+                    ->copyable(),
 
-                TextColumn::make('description')
-                    ->label('Tindakan'),
+                TextColumn::make('company.name')
+                    ->label('Syarikat')
+                    ->searchable()
+                    ->limit(32),
 
-                TextColumn::make('created_at')
-                    ->label('Tarikh & Masa')
-                    ->dateTime('d/m/Y H:i:s')
+                TextColumn::make('product.name')
+                    ->label('Produk')
+                    ->limit(28)
+                    ->placeholder('—'),
+
+                TextColumn::make('current_stage')
+                    ->label('Peringkat')
+                    ->badge()
+                    ->formatStateUsing(fn (ApplicationStage $state): string => $state->label())
+                    ->color(fn (ApplicationStage $state): string => $state->color()),
+
+                TextColumn::make('submitted_at')
+                    ->label('Tarikh Hantar')
+                    ->date('d/m/Y')
                     ->sortable(),
+
+                TextColumn::make('submitted_at')
+                    ->label('Hari Berlalu')
+                    ->formatStateUsing(fn ($state): string => $state
+                        ? Carbon::parse($state)->diffInDays(now()) . ' hari'
+                        : '—')
+                    ->color(fn ($state): string => $state && Carbon::parse($state)->diffInDays(now()) > 30
+                        ? 'danger'
+                        : 'gray'),
             ])
-            ->paginated(false);
+            ->paginated(false)
+            ->striped();
     }
 }

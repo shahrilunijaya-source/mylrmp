@@ -15,7 +15,7 @@ class ApplicationsTimelineChart extends ChartWidget
         return 'Permohonan 30 Hari Terakhir';
     }
 
-    protected int|string|array $columnSpan = 'full';
+    protected int|string|array $columnSpan = 1;
 
     protected function getType(): string
     {

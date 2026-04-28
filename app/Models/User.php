@@ -52,6 +52,7 @@ class User extends Authenticatable implements FilamentUser
             'Penilai Teknikal',
             'Penilai Label',
             'Pegawai Pendaftaran',
+            'Pegawai Pemeriksaan',
         ]) && $this->is_active;
     }
 

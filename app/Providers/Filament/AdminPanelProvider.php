@@ -36,6 +36,7 @@ class AdminPanelProvider extends PanelProvider
             ->registration(false)
             ->brandName('myLRMP')
             ->brandLogoHeight('2rem')
+            ->favicon(asset('favicon.png'))
             ->colors([
                 'primary' => Color::hex('#006837'),
                 'warning' => Color::hex('#FFCC00'),

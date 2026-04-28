@@ -1,8 +1,11 @@
 <x-layouts.public title="Laman Utama">
 
     {{-- Hero section --}}
-    <section style="background: linear-gradient(135deg, #006837 0%, #004d28 60%, #003d20 100%);">
-        <div style="max-width: 1280px; margin: 0 auto; padding: 64px 16px 80px; text-align: center;">
+    <section class="hero-section">
+        <div class="hero-orb hero-orb-1"></div>
+        <div class="hero-orb hero-orb-2"></div>
+        <div class="hero-orb hero-orb-3"></div>
+        <div class="hero-content" style="max-width: 1280px; margin: 0 auto; padding: 64px 16px 80px; text-align: center;">
             <p style="color: #FFCC00; font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; margin: 0 0 12px;">Portal Rasmi</p>
             <h1 style="color: white; font-size: clamp(28px, 5vw, 48px); font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; margin: 0 0 16px;">
                 {{ __('app.home.hero_title') }}
@@ -107,43 +110,40 @@
     {{-- Pautan Berguna --}}
     <section style="max-width: 1280px; margin: 0 auto; padding: 48px 16px;">
         <h2 style="font-size: 20px; font-weight: 600; color: #111827; letter-spacing: -0.02em; margin: 0 0 24px;">Pautan Berguna</h2>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px;">
-            <a href="https://www.doa.gov.my" target="_blank" rel="noopener"
-               style="display: flex; align-items: center; gap: 10px; padding: 14px 16px; background: white; border: 1px solid #e5e7eb; border-radius: 10px; font-size: 13px; font-weight: 500; color: #374151; text-decoration: none; transition: all 0.15s;"
-               onmouseover="this.style.borderColor='#006837'; this.style.color='#006837';"
-               onmouseout="this.style.borderColor='#e5e7eb'; this.style.color='#374151';">
-                <svg style="width: 14px; height: 14px; color: #006837; flex-shrink: 0;" fill="none" stroke="#006837" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
-                </svg>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px;">
+
+            <a href="https://www.doa.gov.my" target="_blank" rel="noopener" class="pautan-link">
+                <img src="https://www.google.com/s2/favicons?domain=doa.gov.my&sz=64" alt="DOA" onerror="this.style.display='none'">
                 Laman Web DOA
-            </a>
-            <a href="https://www.moa.gov.my" target="_blank" rel="noopener"
-               style="display: flex; align-items: center; gap: 10px; padding: 14px 16px; background: white; border: 1px solid #e5e7eb; border-radius: 10px; font-size: 13px; font-weight: 500; color: #374151; text-decoration: none; transition: all 0.15s;"
-               onmouseover="this.style.borderColor='#006837'; this.style.color='#006837';"
-               onmouseout="this.style.borderColor='#e5e7eb'; this.style.color='#374151';">
-                <svg style="width: 14px; height: 14px; flex-shrink: 0;" fill="none" stroke="#006837" viewBox="0 0 24 24">
+                <svg class="ext-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
                 </svg>
+            </a>
+
+            <a href="https://www.moa.gov.my" target="_blank" rel="noopener" class="pautan-link">
+                <img src="https://www.google.com/s2/favicons?domain=moa.gov.my&sz=64" alt="MOA" onerror="this.style.display='none'">
                 Kementerian Pertanian
-            </a>
-            <a href="https://www.myipo.gov.my" target="_blank" rel="noopener"
-               style="display: flex; align-items: center; gap: 10px; padding: 14px 16px; background: white; border: 1px solid #e5e7eb; border-radius: 10px; font-size: 13px; font-weight: 500; color: #374151; text-decoration: none; transition: all 0.15s;"
-               onmouseover="this.style.borderColor='#006837'; this.style.color='#006837';"
-               onmouseout="this.style.borderColor='#e5e7eb'; this.style.color='#374151';">
-                <svg style="width: 14px; height: 14px; flex-shrink: 0;" fill="none" stroke="#006837" viewBox="0 0 24 24">
+                <svg class="ext-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
                 </svg>
+            </a>
+
+            <a href="https://www.myipo.gov.my" target="_blank" rel="noopener" class="pautan-link">
+                <img src="https://www.google.com/s2/favicons?domain=myipo.gov.my&sz=64" alt="MyIPO" onerror="this.style.display='none'">
                 MyIPO
-            </a>
-            <a href="https://www.ssm.com.my" target="_blank" rel="noopener"
-               style="display: flex; align-items: center; gap: 10px; padding: 14px 16px; background: white; border: 1px solid #e5e7eb; border-radius: 10px; font-size: 13px; font-weight: 500; color: #374151; text-decoration: none; transition: all 0.15s;"
-               onmouseover="this.style.borderColor='#006837'; this.style.color='#006837';"
-               onmouseout="this.style.borderColor='#e5e7eb'; this.style.color='#374151';">
-                <svg style="width: 14px; height: 14px; flex-shrink: 0;" fill="none" stroke="#006837" viewBox="0 0 24 24">
+                <svg class="ext-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
                 </svg>
-                SSM Malaysia
             </a>
+
+            <a href="https://www.ssm.com.my" target="_blank" rel="noopener" class="pautan-link">
+                <img src="https://www.google.com/s2/favicons?domain=ssm.com.my&sz=64" alt="SSM" onerror="this.style.display='none'">
+                SSM Malaysia
+                <svg class="ext-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                </svg>
+            </a>
+
         </div>
     </section>
 

@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\CompanyStatus;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
@@ -53,5 +54,10 @@ class Company extends Model
     public function applications(): HasMany
     {
         return $this->hasMany(RegistrationApplication::class, 'applicant_company_id');
+    }
+
+    public function inspections(): MorphMany
+    {
+        return $this->morphMany(Inspection::class, 'target');
     }
 }
