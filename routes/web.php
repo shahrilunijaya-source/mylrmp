@@ -17,6 +17,7 @@ use App\Http\Controllers\Officer\DashboardController as OfficerDashboardControll
 use App\Http\Controllers\Officer\ProductController as OfficerProductController;
 use App\Http\Controllers\Officer\ProfileController as OfficerProfileController;
 use App\Http\Controllers\Officer\UserController as OfficerUserController;
+use App\Http\Controllers\Officer\AccessControlController as OfficerAccessController;
 use App\Http\Controllers\Public\CalculatorController;
 use App\Http\Controllers\Public\HomeController;
 use App\Http\Controllers\Public\ProductSearchController;
@@ -103,6 +104,9 @@ Route::prefix('pegawai')->name('officer.')->middleware(['auth', 'officer.role'])
     Route::get('/permohonan/{application}', [OfficerApplicationController::class, 'show'])->name('applications.show');
     Route::post('/permohonan/{application}/semak', [OfficerApplicationController::class, 'review'])->name('applications.review');
     Route::get('/pengguna', [OfficerUserController::class, 'index'])->name('users.index');
+    Route::post('/pengguna', [OfficerUserController::class, 'store'])->name('users.store');
+    Route::get('/kawalan-akses', [OfficerAccessController::class, 'index'])->name('access.index');
+    Route::put('/kawalan-akses/{role}', [OfficerAccessController::class, 'update'])->name('access.update');
     Route::get('/syarikat', [OfficerCompanyController::class, 'index'])->name('companies.index');
     Route::get('/syarikat/{company}', [OfficerCompanyController::class, 'show'])->name('companies.show');
     Route::get('/produk', [OfficerProductController::class, 'index'])->name('products.index');
