@@ -2,21 +2,21 @@
 
 namespace App\Providers\Filament;
 
-use Filament\Http\Middleware\Authenticate;
-use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
-use Filament\Http\Middleware\AuthenticateSession;
-use Filament\Http\Middleware\DisableBladeIconComponents;
-use Filament\Http\Middleware\DispatchServingFilamentEvent;
-use Filament\Pages\Dashboard;
-use Filament\Panel;
-use Filament\PanelProvider;
-use Filament\Support\Colors\Color;
+use App\Filament\Pages\Auth\Login as CustomLogin;
 use App\Filament\Widgets\ApplicationsByStageChart;
 use App\Filament\Widgets\ApplicationsTimelineChart;
 use App\Filament\Widgets\KpiOverviewWidget;
 use App\Filament\Widgets\RecentActivitiesWidget;
-use Filament\Widgets\AccountWidget;
-use Filament\Widgets\FilamentInfoWidget;
+use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
+use Filament\Http\Middleware\Authenticate;
+use Filament\Http\Middleware\AuthenticateSession;
+use Filament\Http\Middleware\DisableBladeIconComponents;
+use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use App\Filament\Pages\Dashboard;
+use Filament\Panel;
+use Filament\PanelProvider;
+use Filament\Support\Colors\Color;
+use Filament\View\PanelsRenderHook;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\PreventRequestForgery;
@@ -32,7 +32,7 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
-            ->login()
+            ->login(CustomLogin::class)
             ->registration(false)
             ->brandName('myLRMP')
             ->brandLogoHeight('2rem')
@@ -40,6 +40,12 @@ class AdminPanelProvider extends PanelProvider
                 'primary' => Color::hex('#006837'),
                 'warning' => Color::hex('#FFCC00'),
             ])
+            ->viteTheme('resources/css/filament/admin/theme.css')
+            ->userMenu(false)
+            ->renderHook(
+                PanelsRenderHook::SIDEBAR_FOOTER,
+                fn () => view('filament.hooks.sidebar-footer'),
+            )
             ->navigationGroups([
                 'Permohonan',
                 'Pengurusan',
@@ -58,8 +64,6 @@ class AdminPanelProvider extends PanelProvider
                 ApplicationsByStageChart::class,
                 ApplicationsTimelineChart::class,
                 RecentActivitiesWidget::class,
-                AccountWidget::class,
-                FilamentInfoWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,
