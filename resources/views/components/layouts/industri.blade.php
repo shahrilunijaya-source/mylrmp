@@ -111,7 +111,7 @@ body {
 .brand-name { font-size: 14.5px; font-weight: 700; color: var(--text); letter-spacing: -0.025em; line-height: 1.2; }
 .brand-sub  { font-size: 10px; color: var(--text-4); margin-top: 1px; }
 
-.sidebar-body { flex: 1; padding: 8px 0; overflow-y: auto; }
+.sidebar-body { flex: 1; min-height: 0; padding: 8px 0; overflow-y: auto; }
 
 .nav-sec {
   padding: 14px 16px 4px;
