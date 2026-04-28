@@ -9,7 +9,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <style>
 :root {
   --navy:        #061B31;
@@ -475,7 +474,7 @@ if (request()->routeIs('officer.applications.*')) {
     $moduleCtx = ['code' => 'e-Cert', 'name' => 'Pendaftaran Produk'];
 } elseif (request()->routeIs(['officer.pemeriksaan.*', 'officer.premis.*'])) {
     $moduleCtx = ['code' => 'e-Periksa', 'name' => 'Pemeriksaan'];
-} elseif (request()->routeIs(['officer.companies.*', 'officer.products.*', 'officer.users.*', 'officer.audit.*', 'officer.profile'])) {
+} elseif (request()->routeIs(['officer.companies.*', 'officer.products.*', 'officer.users.*', 'officer.audit.*', 'officer.profile', 'officer.access.*'])) {
     $moduleCtx = ['code' => 'Admin', 'name' => 'Pentadbiran & Pengurusan'];
 }
 @endphp

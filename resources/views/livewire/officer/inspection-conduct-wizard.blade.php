@@ -1,4 +1,4 @@
-<div style="max-width:900px;margin:0 auto;">
+<div style="max-width:1060px;margin:0 auto;">
 
 {{-- Step progress --}}
 <div style="display:flex;align-items:center;gap:0;margin-bottom:28px;">
@@ -30,43 +30,62 @@
 <div class="card">
     <div class="card-head">
         <span class="card-title">Senarai Semak Pemeriksaan</span>
-        <span class="card-meta">{{ collect($answers)->where('answer', 'No')->count() }} tidak akur</span>
+        @php $tidakCount = collect($answers)->filter(fn($a) => ($a['answer'] ?? '') === 'No')->count(); @endphp
+        <span class="card-meta" style="{{ $tidakCount > 0 ? 'color:var(--red);font-weight:600;' : '' }}">
+            {{ $tidakCount }} tidak akur
+        </span>
     </div>
-    <div style="padding:8px 0;">
-        @forelse($checklistItems as $category => $items)
-        <div style="padding:14px 18px 0;">
-            <div style="font-size:10.5px;font-weight:700;letter-spacing:0.1em;color:var(--text-4);text-transform:uppercase;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border);">{{ $category }}</div>
-        </div>
+
+    @forelse($checklistItems as $category => $items)
+
+    {{-- Category section header --}}
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 20px;background:var(--bg);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+        <div style="width:3px;height:14px;background:var(--brand);border-radius:2px;flex-shrink:0;"></div>
+        <span style="font-size:11px;font-weight:700;letter-spacing:0.1em;color:var(--text-2);text-transform:uppercase;">{{ $category }}</span>
+        <span style="font-size:10.5px;font-weight:600;color:var(--text-4);background:var(--border);padding:1px 8px;border-radius:999px;">{{ count($items) }}</span>
+    </div>
+
+    {{-- 2-column item grid --}}
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:14px 20px;">
         @foreach($items as $item)
-        <div style="padding:12px 18px;border-bottom:1px solid var(--border);display:grid;grid-template-columns:1fr auto;gap:16px;align-items:start;">
-            <div>
-                <div style="font-size:13.5px;color:var(--text);margin-bottom:6px;">{{ $item->prompt_ms }}</div>
-                <input type="text"
-                    wire:model.defer="answers.{{ $item->id }}.note"
-                    placeholder="Nota (pilihan)..."
-                    class="form-input"
-                    style="font-size:12px;padding:6px 10px;">
-            </div>
-            <div style="display:flex;gap:4px;flex-shrink:0;margin-top:2px;">
-                @foreach(['Yes' => ['Ya', 'var(--brand)', 'var(--brand-light)', '#bbf7d0'], 'No' => ['Tidak', 'var(--red)', 'var(--red-bg)', '#fecaca'], 'NA' => ['T/B', 'var(--text-3)', 'var(--bg)', 'var(--border)']] as $val => [$lbl, $tc, $bg, $border])
-                @php $selected = ($answers[$item->id]['answer'] ?? 'NA') === $val; @endphp
-                <label style="cursor:pointer;">
-                    <input type="radio" wire:model.live="answers.{{ $item->id }}.answer" value="{{ $val }}" style="display:none;">
-                    <span style="display:inline-flex;align-items:center;justify-content:center;min-width:52px;height:30px;padding:0 10px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;transition:all .1s;
-                        background:{{ $selected ? $bg : 'var(--surface)' }};
-                        color:{{ $selected ? $tc : 'var(--text-4)' }};
-                        border:1.5px solid {{ $selected ? $border : 'var(--border)' }};">
-                        {{ $lbl }}
-                    </span>
-                </label>
+        @php
+            $ans   = $answers[$item->id]['answer'] ?? 'NA';
+            $lbord = $ans === 'No' ? 'var(--red)' : ($ans === 'Yes' ? 'var(--brand)' : 'var(--border)');
+        @endphp
+        <div style="border:1px solid var(--border);border-left:3px solid {{ $lbord }};border-radius:8px;padding:14px;background:var(--surface);display:flex;flex-direction:column;gap:10px;">
+
+            {{-- Question --}}
+            <div style="font-size:13px;color:var(--text);line-height:1.55;flex:1;">{{ $item->prompt_ms }}</div>
+
+            {{-- Ya / Tidak / T/B buttons --}}
+            <div style="display:flex;gap:5px;">
+                @foreach(['Yes' => ['Ya','var(--brand)','var(--brand-light)','var(--brand)'], 'No' => ['Tidak','var(--red)','var(--red-bg)','var(--red)'], 'NA' => ['T/B','var(--text-2)','#e2e8f0','var(--border-2)']] as $val => [$lbl,$tc,$bg,$bdr])
+                @php $sel = $ans === $val; @endphp
+                <button type="button"
+                    wire:click="setAnswer({{ $item->id }}, '{{ $val }}')"
+                    style="flex:1;height:32px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .12s;
+                        background:{{ $sel ? $bg : '#fff' }};
+                        color:{{ $sel ? $tc : 'var(--text-4)' }};
+                        border:1.5px solid {{ $sel ? $bdr : 'var(--border)' }};">
+                    {{ $lbl }}
+                </button>
                 @endforeach
             </div>
+
+            {{-- Notes --}}
+            <input type="text"
+                wire:model.defer="answers.{{ $item->id }}.note"
+                placeholder="Nota (pilihan)..."
+                class="form-input"
+                style="font-size:12px;padding:5px 10px;">
+
         </div>
         @endforeach
-        @empty
-            <div style="padding:32px;text-align:center;color:var(--text-4);font-size:13px;">Tiada item senarai semak untuk jenis sasaran ini.</div>
-        @endforelse
     </div>
+
+    @empty
+        <div style="padding:40px;text-align:center;color:var(--text-4);font-size:13px;">Tiada item senarai semak untuk jenis sasaran ini.</div>
+    @endforelse
 </div>
 
 <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:16px;">

@@ -87,6 +87,11 @@ class InspectionConductWizard extends Component
         $this->step = max(1, $this->step - 1);
     }
 
+    public function setAnswer(int $itemId, string $answer): void
+    {
+        $this->answers[$itemId]['answer'] = $answer;
+    }
+
     public function addFinding(): void
     {
         $this->findings[] = [
