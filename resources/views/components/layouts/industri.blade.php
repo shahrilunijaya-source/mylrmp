@@ -69,7 +69,6 @@ body {
   color: var(--text);
   display: flex;
   font-size: 14px;
-  zoom: 1.07;
 }
 
 /* ─── STRIPE SHADOWS ─────────────────────────────────── */
@@ -88,7 +87,7 @@ body {
   display: flex;
   flex-direction: column;
   height: 100vh;
-  overflow-y: auto;
+  overflow: hidden;
   flex-shrink: 0;
 }
 .sidebar-top {
@@ -187,7 +186,6 @@ body {
 .nav-a.is-disabled[data-tip]:hover::after { opacity: 1; }
 
 .sidebar-footer {
-  margin-top: auto;
   border-top: 1px solid var(--border);
   padding: 10px 12px;
   display: flex; align-items: center; gap: 9px;
