@@ -11,7 +11,19 @@
     <div class="card">
         <div class="card-head">
             <span class="card-title">Senarai Pengguna</span>
-            <span class="card-meta">{{ $users->total() }} pengguna</span>
+            <div style="display:flex;align-items:center;gap:12px;margin-left:auto;">
+                @if(session('success'))
+                    <span style="font-size:12px;color:#15803d;display:flex;align-items:center;gap:5px;">
+                        <svg width="13" height="13" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                        {{ session('success') }}
+                    </span>
+                @endif
+                <span class="card-meta">{{ $users->total() }} pengguna</span>
+                <button class="btn-navy" onclick="openAddUser()">
+                    <svg width="13" height="13" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"/></svg>
+                    Tambah Pengguna
+                </button>
+            </div>
         </div>
 
         @if($users->isEmpty())
@@ -103,5 +115,117 @@
             @endif
         @endif
     </div>
+
+    {{-- ── Add User Modal ─────────────────────────────── --}}
+    <style>
+        .modal-backdrop {
+            position: fixed; inset: 0;
+            background: rgba(6,27,49,0.55);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 100;
+            opacity: 0; pointer-events: none;
+            transition: opacity 200ms ease;
+        }
+        .modal-backdrop.open { opacity: 1; pointer-events: auto; }
+        .modal-box {
+            background: #fff;
+            border-radius: 10px;
+            width: 92vw; max-width: 480px;
+            overflow: hidden;
+            display: flex; flex-direction: column;
+            box-shadow: rgba(6,27,49,0.28) 0px 24px 64px -8px, rgba(0,0,0,0.12) 0px 8px 20px -4px;
+            transform: scale(0.95) translateY(12px);
+            transition: transform 200ms ease;
+        }
+        .modal-backdrop.open .modal-box { transform: scale(1) translateY(0); }
+        .modal-hd {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 16px 20px;
+            background: var(--navy);
+            flex-shrink: 0;
+        }
+        .modal-title { font-size: 14px; font-weight: 600; color: #fff; }
+        .modal-cls {
+            width: 28px; height: 28px;
+            border-radius: 6px; border: none;
+            background: rgba(255,255,255,0.15);
+            color: #fff; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 15px; transition: background .15s;
+        }
+        .modal-cls:hover { background: rgba(255,255,255,0.25); }
+        .modal-bd { padding: 24px 20px; }
+        .modal-fld { margin-bottom: 16px; }
+        .modal-fld:last-child { margin-bottom: 0; }
+    </style>
+
+    <div class="modal-backdrop {{ $errors->any() ? 'open' : '' }}" id="addUserBackdrop" onclick="handleBackdrop(event)">
+        <div class="modal-box" onclick="event.stopPropagation()">
+            <div class="modal-hd">
+                <span class="modal-title">Tambah Pengguna Baharu</span>
+                <button class="modal-cls" type="button" onclick="closeAddUser()">✕</button>
+            </div>
+            <div class="modal-bd">
+                <form method="POST" action="{{ route('officer.users.store') }}">
+                    @csrf
+
+                    <div class="modal-fld">
+                        <label class="form-label">Nama Penuh <span style="color:var(--red)">*</span></label>
+                        <input type="text" name="name" value="{{ old('name') }}"
+                               class="form-input" placeholder="cth. Ahmad bin Ali">
+                        @error('name')
+                            <p style="font-size:12px;color:var(--red);margin-top:4px;">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <div class="modal-fld">
+                        <label class="form-label">Alamat E-mel <span style="color:var(--red)">*</span></label>
+                        <input type="email" name="email" value="{{ old('email') }}"
+                               class="form-input" placeholder="cth. ahmad@doa.gov.my">
+                        @error('email')
+                            <p style="font-size:12px;color:var(--red);margin-top:4px;">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <div class="modal-fld">
+                        <label class="form-label">Kata Laluan <span style="color:var(--red)">*</span></label>
+                        <input type="password" name="password"
+                               class="form-input" placeholder="Minimum 8 aksara">
+                        @error('password')
+                            <p style="font-size:12px;color:var(--red);margin-top:4px;">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <div class="modal-fld">
+                        <label class="form-label">Peranan <span style="color:var(--red)">*</span></label>
+                        <select name="role" class="form-select">
+                            <option value="">-- Pilih peranan --</option>
+                            @foreach(\Spatie\Permission\Models\Role::orderBy('name')->get() as $role)
+                                @if($role->name !== 'Industri')
+                                    <option value="{{ $role->name }}" {{ old('role') === $role->name ? 'selected' : '' }}>
+                                        {{ $role->name }}
+                                    </option>
+                                @endif
+                            @endforeach
+                        </select>
+                        @error('role')
+                            <p style="font-size:12px;color:var(--red);margin-top:4px;">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:24px;">
+                        <button type="button" class="btn-ghost" onclick="closeAddUser()">Batal</button>
+                        <button type="submit" class="btn-navy">Simpan Pengguna</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openAddUser()  { document.getElementById('addUserBackdrop').classList.add('open'); }
+        function closeAddUser() { document.getElementById('addUserBackdrop').classList.remove('open'); }
+        function handleBackdrop(e) { if (e.target === document.getElementById('addUserBackdrop')) closeAddUser(); }
+    </script>
 
 </x-layouts.officer>
