@@ -562,7 +562,7 @@ if (request()->routeIs('officer.applications.*')) {
             <a href="{{ route('officer.users.index') }}" class="mod-tab {{ request()->routeIs('officer.users.*') ? 'active' : '' }}">Pengguna & ACL</a>
             <a href="{{ route('officer.audit.index') }}" class="mod-tab {{ request()->routeIs('officer.audit.*') ? 'active' : '' }}">Log Audit</a>
             <a href="{{ route('officer.profile') }}" class="mod-tab {{ request()->routeIs('officer.profile') ? 'active' : '' }}">Profil Saya</a>
-            <span class="mod-tab disabled" tabindex="-1" data-tip="Belum tersedia dalam prototaip ini">Kawalan Akses</span>
+            <a href="{{ route('officer.access.index') }}" class="mod-tab {{ request()->routeIs('officer.access.*') ? 'active' : '' }}">Kawalan Akses</a>
         @endif
     </div>
 </div>
