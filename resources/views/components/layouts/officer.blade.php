@@ -579,5 +579,6 @@ if (request()->routeIs('officer.applications.*')) {
 </main>
 
 @livewireScripts
+@include('partials.supportos-widget')
 </body>
 </html>

@@ -280,5 +280,6 @@
 </div>
 
 @livewireScripts
+@include('partials.supportos-widget')
 </body>
 </html>

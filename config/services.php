@@ -35,4 +35,11 @@ return [
         ],
     ],
 
+    'supportos' => [
+        'enabled' => env('SUPPORTOS_ENABLED', false),
+        'url' => env('SUPPORTOS_URL', 'http://127.0.0.1:8777'),
+        'token' => env('SUPPORTOS_PROJECT_TOKEN'),
+        'auto_capture' => env('SUPPORTOS_AUTO_CAPTURE', true),
+    ],
+
 ];

@@ -647,5 +647,6 @@ input, select, textarea { font-family: var(--font); }
 </div>
 
 @livewireScripts
+@include('partials.supportos-widget')
 </body>
 </html>
